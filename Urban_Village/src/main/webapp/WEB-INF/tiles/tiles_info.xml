@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="infoLayout"
+		template="/WEB-INF/views/common/layoutInfo.jsp">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"></put-attribute>
+		<put-attribute name="body" value=""></put-attribute>
+		<put-attribute name="side" value="/WEB-INF/views/common/side.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"></put-attribute>
+	</definition>
+   
+   <definition name="/member/myInfo"
+      extends="infoLayout">
+      <put-attribute name="title" value="내정보 확인"></put-attribute>
+      <put-attribute name="body"
+         value="/WEB-INF/views/member/myInfo.jsp"></put-attribute>
+   </definition>
+   
+	<definition name="/member/deleteMemberForm"
+      extends="infoLayout">
+      <put-attribute name="title" value="회원탈퇴"></put-attribute>
+      <put-attribute name="body"
+         value="/WEB-INF/views/member/deleteMemberForm.jsp"></put-attribute>
+   </definition>
+   
+   
+   <definition name="/wishList/wishListadd"
+      extends="infoLayout">
+      <put-attribute name="title" value="위시리스트" />
+      <put-attribute name="body"
+         value="/WEB-INF/views/wishList/wishListadd.jsp" />
+   </definition>
+   
+   <definition name="/reservation/reservationHistory"
+		extends="infoLayout">
+		<put-attribute name="title" value="예약내역"></put-attribute>
+		<put-attribute name="body"
+			value="/WEB-INF/views/reservation/reservationHistory.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="/cleaner/cleanerForm" extends="infoLayout">
+		<put-attribute name="title" value="지원양식"></put-attribute>
+		<put-attribute name="body"
+			value="/WEB-INF/views/cleaner/cleanerForm.jsp"></put-attribute>
+	</definition>
+	
+</tiles-definitions>
