@@ -54,24 +54,7 @@ public class MemberServiceImpl implements MemberService {
 	       }
 
 
-		@Override
-		public void addPay(PayDTO payDto) {
-			// TODO Auto-generated method stub
-			dao.addPay(payDto);
-			
-		}
-
-		@Override
-		public List<PayDTO> payList() {
-			// TODO Auto-generated method stub
-			return dao.payList();
-		}
-
-		@Override
-		public List<PayDTO> reservationGetUserId(String loginId) {
-			// TODO Auto-generated method stub
-			return dao.reservationGetUserId(loginId);
-		}
+	
 		
 		@Override
 		   public int deleteMember(String id) {

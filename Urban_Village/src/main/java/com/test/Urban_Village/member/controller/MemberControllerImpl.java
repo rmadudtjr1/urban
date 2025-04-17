@@ -175,7 +175,7 @@ public class MemberControllerImpl implements MemberController {
 			// 성공 시 알림 후 로그인 페이지로 이동
 			out.write("<script>");
 			out.write("alert('회원 가입에 성공했습니다!');");
-			out.write("location.href='/Urban_Village/member/urbanLogin.do';");
+			out.write("location.href='/Urban_Village/member/loginForm.do';");
 			out.write("</script>");
 		} else {
 			// 실패 시 알림 후 다시 회원가입 폼으로
@@ -236,108 +236,7 @@ public class MemberControllerImpl implements MemberController {
 			e.printStackTrace();
 		}
 	}
-	@Override
-	@RequestMapping("/reservationForm.do")
-	public ModelAndView reservationForm(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/reservationForm"); 
-		return mav;
-	}
-
-	@Override
-	@RequestMapping("/reservation.do")
-	public ModelAndView reservation(
-	        @RequestParam("accommodation_id") String accommodation_id,
-	        @RequestParam("reservation_id") String reservation_id,
-	        @RequestParam("checkin_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkin_date,
-	        @RequestParam("checkout_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkout_date,
-	        @RequestParam("guest_count") int guest_count,
-	        @RequestParam("total_price") double total_price,
-	        HttpServletRequest request, HttpServletResponse response) {
-
-	    ModelAndView mav = new ModelAndView();
-
-	    // 세션 가져오기
-	    HttpSession session = request.getSession(false);
-	    if (session == null || session.getAttribute("loginId") == null) {
-	        mav.setViewName("redirect:/member/loginForm.do");
-	        return mav;
-	    }
-
-	    // 세션에서 사용자 ID 가져오기
-	    String loginId = (String) session.getAttribute("loginId");
-
-	    // DTO 생성 및 값 설정
-	    PayDTO payDTO = new PayDTO();
-	    payDTO.setAccommodation_id(accommodation_id);
-	    payDTO.setReservation_id(reservation_id);
-	    payDTO.setCheckin_date(checkin_date);
-	    payDTO.setCheckout_date(checkout_date);
-	    payDTO.setGuest_count(guest_count);
-	    payDTO.setTotal_price(total_price);
-	    payDTO.setId(loginId);
-
-	    System.out.println("=== [예약 컨트롤러 진입] ===");
-	    System.out.println("숙소 ID: " + accommodation_id);
-	    System.out.println("예약 ID: " + reservation_id);
-	    System.out.println("체크인 날짜: " + checkin_date);
-	    System.out.println("체크아웃 날짜: " + checkout_date);
-	    System.out.println("게스트 수: " + guest_count);
-	    System.out.println("총 금액: " + total_price);
-	    System.out.println("회원 ID: " + loginId);
-
-	    try {
-	        // 예약 정보 저장
-	        service.addPay(payDTO);
-	        // 성공 시 리다이렉트
-	        mav.setViewName("redirect:/member/reservationHistory.do");
-	    } catch (Exception e) {
-	        System.out.println("예약 정보 저장 중 오류 발생: " + e.getMessage());
-	        e.printStackTrace();
-	        mav.setViewName("error/reservationError"); // 에러 페이지 따로 구성했다면
-	    }
-
-	    return mav;
-	}
-
-
-	@Override
-	@RequestMapping("/reservationHistory.do")
-	public ModelAndView reservationHistory(HttpServletRequest request, HttpServletResponse response) {
-		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView();
-		session = request.getSession(false);
-		if (session == null || session.getAttribute("loginId") == null) {
-			mav.setViewName("redirect:/member/loginForm.do");
-			System.out.println("로그인되지 않은 사용자");
-			return mav;
-		}
-		String loginId = (String) session.getAttribute("loginId");
-		System.out.println("로그인 아이디: " + loginId);
-		System.out.println("viewName: " + viewName);
-
-		if (loginId != null) {
-			List<PayDTO> userReservations = service.reservationGetUserId(loginId);
-			System.out.println("예약 정보: " + userReservations);
-			mav.addObject("reservations", userReservations);
-			mav.setViewName(viewName);
-		}
-
-		return mav;
-	}
-	@Override
-	@RequestMapping("/payList.do")
-	public ModelAndView payList(HttpServletRequest request, HttpServletResponse response){
-		// TODO Auto-generated method stub
-		List<PayDTO> payList = service.payList();
-		String viewName = (String)request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
-		session.setAttribute("payList", payList);
-		for(PayDTO pay : payList) {
-			System.out.println(pay);
-		}
-		return mav;
-	}
+	
 	@RequestMapping("/deleteMemberForm.do")
     public ModelAndView deleteMemberForm(HttpServletRequest request, HttpServletResponse response) {
        String viewName = (String) request.getAttribute("viewName");
