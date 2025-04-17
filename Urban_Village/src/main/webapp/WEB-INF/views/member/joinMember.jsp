@@ -8,8 +8,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>A Register</title>
-    <style>
+<title></title>
+<style>
         /* From Uiverse.io by ammarsaa */
         .form {
             display: flex;
@@ -266,7 +266,7 @@
                 width: 100%;
             }
         }
-    </style>
+</style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 function fn_checkId() {
@@ -292,6 +292,55 @@ function fn_checkId() {
         }
     });
 }
+let sentCode = "";
+
+function sendVerificationCode() {
+    const email = $("#email").val();
+
+    // 이메일 형식 검사
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert("올바른 이메일 형식을 입력해주세요.");
+        return;
+    }
+
+    $.ajax({
+        url: "${contextPath}/email/sendJoinCode.do",
+        type: "POST",
+        data: { email: email },
+        success: function(code) {
+            sentCode = code;
+            alert("인증번호가 이메일로 발송되었습니다.");
+            $("#verificationSection").show();
+            $("#verifyBtn").show();
+        },
+        error: function() {
+            alert("인증번호 발송 중 오류가 발생했습니다.");
+        }
+    });
+}
+
+function verifyCode() {
+    const inputCode = $("#verificationCodeInput").val();
+
+    $.ajax({
+        url: "${contextPath}/email/checkJoinCode.do",
+        type: "POST",
+        data: { inputCode: inputCode },
+        success: function(isValid) {
+            if (isValid) {
+                alert("이메일 인증이 완료되었습니다!");
+                $("#submitBtn").prop("disabled", false); // 회원가입 버튼 활성화
+            } else {
+                alert("인증번호가 일치하지 않습니다.");
+            }
+        },
+        error: function() {
+            alert("인증 확인 중 오류가 발생했습니다.");
+        }
+    });
+}
+
 </script>
 </head>
 <body>
@@ -316,9 +365,17 @@ function fn_checkId() {
         </label>
 
         <label>
-            <input class="input" type="email" name="email" required>
-            <span>이메일</span>
-        </label>
+    		<input class="input" type="email" name="email" id="email" required>
+   			<span>이메일</span>
+		</label>
+		<button type="button" class="submit" onclick="sendVerificationCode()">인증번호 보내기</button>
+
+		<label id="verificationSection" style="display: none;">
+    		<input class="input" type="text" id="verificationCodeInput" placeholder="인증번호 입력">
+    		<span>인증번호</span>
+		</label>
+		<button type="button" class="submit" id="verifyBtn" style="display: none;" onclick="verifyCode()">인증 확인</button>
+
 
         <label>
             <input class="input" type="date" name="birth" required>
@@ -343,7 +400,7 @@ function fn_checkId() {
             <span>이름</span>
         </label>
 
-        <button class="submit" type="submit">회원가입</button>
+        <button class="submit" id="submitBtn" type="submit" disabled>회원가입</button>
         <p class="signin">이미 계정이 있으신가요? <a href="${contextPath }/member/loginForm.do">로그인</a></p>
     </form>
    </div>
