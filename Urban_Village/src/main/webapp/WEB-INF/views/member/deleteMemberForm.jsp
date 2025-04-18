@@ -110,7 +110,7 @@
 <body>
     <div class="container">
         <h1>회원 탈퇴</h1>
-        <form name="deleteForm" action="${contextPath}/member/deleteMember.do" method="get" onsubmit="return validateForm()">
+        <form name="deleteForm" action="${contextPath}/member/deleteMember.do" method="post" onsubmit="return validateForm()">
             <div class="form-group">
                 <label for="id">아이디:</label>
                 <input type="text" id="id" name="id" value="${sessionScope.loginId}" readonly>

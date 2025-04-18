@@ -21,4 +21,6 @@ public interface MemberDAO {
 	public List<MemberDTO> searchMembersById(String id);
 	public String findEmailById(String member_id);
 	public int modPwdMember(MemberDTO member);
+	public MemberDTO selectByEmail(String email);
+	public void insertGoogleUser(MemberDTO member);
 }

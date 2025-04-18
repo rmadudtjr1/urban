@@ -99,4 +99,18 @@ public class MemberServiceImpl implements MemberService {
 	         // TODO Auto-generated method stub
 	         return dao.modPwdMember(member);
 	      }
+
+		@Override
+		public MemberDTO selectByEmail(String email) {
+			// TODO Auto-generated method stub
+			return dao.selectByEmail(email);
+		}
+
+		@Override
+		public void insertGoogleUser(MemberDTO member) {
+			// TODO Auto-generated method stub
+			dao.insertGoogleUser(member);
+			return; 
+		}
+
 }

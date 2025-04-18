@@ -99,4 +99,19 @@ public class MemberDAOImpl implements MemberDAO {
 	      // TODO Auto-generated method stub
 	      return sqlSession.update("mapper.member.modPwdMember",member);
 	   }
+
+	@Override
+	public MemberDTO selectByEmail(String email) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mapper.member.selectByEmail", email);
+	}
+
+	@Override
+	public void insertGoogleUser(MemberDTO member) {
+		// TODO Auto-generated method stub
+		sqlSession.insert("mapper.member.insertGoogleUser", member);
+	}
+
+	
+	
 }

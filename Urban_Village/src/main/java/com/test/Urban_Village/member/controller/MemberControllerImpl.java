@@ -189,9 +189,18 @@ public class MemberControllerImpl implements MemberController {
 	}
 	@Override
 	@RequestMapping("/myInfo.do")
-	public ModelAndView myInfo(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView myInfo(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		List<MemberDTO> memberList = service.getUserInfoById(id);
 		ModelAndView mav = new ModelAndView();
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		if(id.contains("@")){
+			out.write("<script>");
+			out.write("alert('구글 로그인은 정보를 수정 할 수 없습니다.');");
+			out.write("location.href='/Urban_Village/';");
+			out.write("</script>");
+			return null;
+		}
 		String viewName = (String) request.getAttribute("viewName");
 		mav.setViewName(viewName);
 		mav.addObject("memberList", memberList);

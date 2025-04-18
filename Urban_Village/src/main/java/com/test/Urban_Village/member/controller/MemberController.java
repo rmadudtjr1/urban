@@ -24,7 +24,7 @@ public interface MemberController {
 	public ModelAndView logout(RedirectAttributes rAttr,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public void checkId(HttpServletRequest request, HttpServletResponse response);
 	
-	public ModelAndView myInfo(String id, HttpServletRequest request, HttpServletResponse response);
+	public ModelAndView myInfo(String id, HttpServletRequest request, HttpServletResponse response)throws IOException;
 	public ModelAndView updateUserInfo(MemberDTO member, String id, HttpServletRequest request, HttpServletResponse response)
 			throws IOException;
 	public void deleteMember(String id, String pwd, HttpServletRequest request, HttpServletResponse response)

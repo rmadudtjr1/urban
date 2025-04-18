@@ -12,8 +12,9 @@
 		<result property="regdate" column="regdate"></result>
 		<result property="moddate" column="moddate"></result>
 		<result property="email" column="email"></result>
+		<result property="join_type" column="join_type"></result>
 	</resultMap>
-
+	
 	<resultMap type="payDTO" id="payResult">
 		<result property="reservation_id" column="reservation_id"></result>
 		<result property="id" column="id"></result>
@@ -124,4 +125,12 @@ WHERE
 		SET pwd=#{pwd}
 		WHERE id=#{id}
 	</update>
+	<select id="selectByEmail" resultType="String">
+		  SELECT email FROM member
+	</select>
+	<insert id="insertGoogleUser" parameterType="memberDTO">
+	INSERT INTO member (id, pwd, email, birth, gender, phonenumber,name,regdate,join_type)
+		VALUES (#{id}, #{pwd}, #{email}, #{birth}, #{gender}, #{phonenumber},
+		#{name},sysdate,#{join_type})
+	</insert>
 </mapper> 
