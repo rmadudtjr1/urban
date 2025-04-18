@@ -39,6 +39,7 @@ body {
 }
 
 .search-bar {
+	font-family: 'Noto Sans KR', sans-serif;
    display: flex;
    align-items: center;
    border: 1px solid #ddd;
@@ -48,6 +49,7 @@ body {
 }
 
 .search-bar input[type="text"] {
+   font-family: 'Noto Sans KR', sans-serif;
    border: none;
    padding: 8px;
    margin-right: 5px;
@@ -69,111 +71,111 @@ body {
    align-items: center;
    padding: 10px 20px;
    margin-bottom: 20px;
-   position: relative; /* ÇÊÅÍ ¹öÆ°ÀÇ absolute ±âÁØÁ¡ ¼³Á¤ */
+   position: relative; /* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ absolute ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories {
    display: flex;
    align-items: center;
    overflow-x: auto;
-   margin-right: 80px; /* ÇÊÅÍ ¹öÆ°ÀÌ Â÷ÁöÇÒ °ø°£ È®º¸ */
+   margin-right: 80px; /* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ */
 }
 
 .categories a {
    display: flex;
-   flex-direction: column; /* ¾ÆÀÌÄÜ°ú ÅØ½ºÆ®¸¦ ¼¼·Î·Î ¹èÄ¡ */
-   align-items: center; /* °¡¿îµ¥ Á¤·Ä */
-   margin-right: 50px; /* ¾ÆÀÌÅÛ °£ °£°Ý */
+   flex-direction: column; /* ï¿½ï¿½ï¿½ï¿½ï¿½Ü°ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Î·ï¿½ ï¿½ï¿½Ä¡ */
+   align-items: center; /* ï¿½ï¿½ï¿½îµ¥ ï¿½ï¿½ï¿½ï¿½ */
+   margin-right: 50px; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
    text-decoration: none;
    color: #333;
-   white-space: nowrap; /* ÅØ½ºÆ®°¡ ÇÑ ÁÙ·Î Ç¥½ÃµÇµµ·Ï */
-   padding: 0; /* ±âÁ¸ padding Á¦°Å */
-   border: none; /* ±âÁ¸ border Á¦°Å */
-   border-radius: 0; /* ±âÁ¸ border-radius Á¦°Å */
+   white-space: nowrap; /* ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù·ï¿½ Ç¥ï¿½ÃµÇµï¿½ï¿½ï¿½ */
+   padding: 0; /* ï¿½ï¿½ï¿½ï¿½ padding ï¿½ï¿½ï¿½ï¿½ */
+   border: none; /* ï¿½ï¿½ï¿½ï¿½ border ï¿½ï¿½ï¿½ï¿½ */
+   border-radius: 0; /* ï¿½ï¿½ï¿½ï¿½ border-radius ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a::before {
-   content: ""; /* °¡»ó ¿ä¼Ò »ý¼º */
+   content: ""; /* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
    display: block;
-   width: 24px; /* ¾ÆÀÌÄÜ Å©±â Á¶Àý */
-   height: 24px; /* ¾ÆÀÌÄÜ Å©±â Á¶Àý */
-   margin-bottom: 5px; /* ¾ÆÀÌÄÜ°ú ÅØ½ºÆ® °£ °£°Ý */
-   background-size: cover; /* ¹è°æ ÀÌ¹ÌÁö Å©±â Á¶Àý */
-   background-repeat: no-repeat; /* ¹è°æ ÀÌ¹ÌÁö ¹Ýº¹ ¹æÁö */
-   background-position: center; /* ¹è°æ ÀÌ¹ÌÁö Áß¾Ó Á¤·Ä */
+   width: 24px; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
+   height: 24px; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
+   margin-bottom: 5px; /* ï¿½ï¿½ï¿½ï¿½ï¿½Ü°ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
+   background-size: cover; /* ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
+   background-repeat: no-repeat; /* ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ýºï¿½ ï¿½ï¿½ï¿½ï¿½ */
+   background-position: center; /* ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ß¾ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a:nth-child(1)::before {
    background-image:
       url('${pageContext.request.contextPath}/resources/image/icons/view.png');
-   /* ÃÖ°íÀÇ Àü¸Á ¾ÆÀÌÄÜ */
+   /* ï¿½Ö°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a:nth-child(2)::before {
    background-image:
       url('${pageContext.request.contextPath}/resources/image/icons/star.png');
-   /* È£ÀÕ ¾ÆÀÌÄÜ */
+   /* È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a:nth-child(3)::before {
    background-image:
       url('${pageContext.request.contextPath}/resources/image/icons/water.png');
-   /* À¯·® ¾ÆÀÌÄÜ */
+   /* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a:nth-child(4)::before {
    background-image:
       url('${pageContext.request.contextPath}/resources/image/icons/peace.png');
-   /* ÇÑÀû ¾ÆÀÌÄÜ */
+   /* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a:nth-child(5)::before {
    background-image:
       url('${pageContext.request.contextPath}/resources/image/icons/best.png');
-   /* ÃÖ°í ¾ÆÀÌÄÜ */
+   /* ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a:nth-child(6)::before {
    background-image:
       url('${pageContext.request.contextPath}/resources/image/icons/park.png');
-   /* °ø¿ø ¾ÆÀÌÄÜ */
+   /* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a:nth-child(7)::before {
    background-image:
       url('${pageContext.request.contextPath}/resources/image/icons/treehouse.png');
-   /* ³ª¹«Áý ¾ÆÀÌÄÜ */
+   /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a:nth-child(8)::before {
    background-image:
       url('${pageContext.request.contextPath}/resources/image/icons/smallhouse.png');
-   /* ¼ÒÇüÁÖÅÃ ¾ÆÀÌÄÜ */
+   /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a:nth-child(9)::before {
    background-image:
       url('${pageContext.request.contextPath}/resources/image/icons/trending.png');
-   /* ÀÎ±â±Þ»ó ¾ÆÀÌÄÜ */
+   /* ï¿½Î±ï¿½Þ»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a:nth-child(10)::before {
    background-image:
       url('${pageContext.request.contextPath}/resources/image/icons/luxe.png');
-   /* Luxe ¾ÆÀÌÄÜ */
+   /* Luxe ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a:nth-child(11)::before {
    background-image:
       url('${pageContext.request.contextPath}/resources/image/icons/private.png');
-   /* µ¶Ã¤ ¾ÆÀÌÄÜ */
+   /* ï¿½ï¿½Ã¤ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .categories a span {
-   font-size: 0.9em; /* ÅØ½ºÆ® Å©±â Á¶Àý */
+   font-size: 0.9em; /* ï¿½Ø½ï¿½Æ® Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 }
 
-/* ÇÊÅÍ ¹öÆ° ½ºÅ¸ÀÏ */
+/* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Å¸ï¿½ï¿½ */
 .filter-button {
    display: flex;
    align-items: center;
@@ -183,10 +185,10 @@ body {
    border-radius: 20px;
    padding: 8px 15px;
    cursor: pointer;
-   position: absolute; /* Àý´ë À§Ä¡ ¼³Á¤ */
-   top: 50%; /* ¼¼·Î Áß¾Ó Á¤·Ä */
-   right: 20px; /* ¿À¸¥ÂÊ ¿©¹é */
-   transform: translateY(-50%); /* ¼¼·Î Áß¾Ó Á¤·Ä º¸Á¤ */
+   position: absolute; /* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ */
+   top: 50%; /* ï¿½ï¿½ï¿½ï¿½ ï¿½ß¾ï¿½ ï¿½ï¿½ï¿½ï¿½ */
+   right: 20px; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
+   transform: translateY(-50%); /* ï¿½ï¿½ï¿½ï¿½ ï¿½ß¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 }
 
 .filter-button .arrow {
@@ -247,7 +249,7 @@ body {
    }
 }
 
-/* ÇÏÆ® ¾ÆÀÌÄÜ ½ºÅ¸ÀÏ */
+/* ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ */
 .heart-icon {
    position: absolute;
    top: 15px;
@@ -262,7 +264,7 @@ body {
    color: red;
 }
 
-/* Footer ½ºÅ¸ÀÏ */
+/* Footer ï¿½ï¿½Å¸ï¿½ï¿½ */
 .footer {
    background-color: #f8f8f8;
    padding: 20px;

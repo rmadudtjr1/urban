@@ -12,12 +12,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.test.Urban_Village.member.dto.MemberDTO;
-import com.test.Urban_Village.member.dto.PayDTO;
+import com.test.Urban_Village.reservation.dto.PayDTO;
 
 public interface ReservationController {
+
+	ModelAndView reservationForm(HttpServletRequest request, HttpServletResponse response);
+
+	ModelAndView reservation(com.test.Urban_Village.reservation.dto.PayDTO payDTO, HttpServletRequest request,
+			HttpServletResponse response);
+
+	ModelAndView reservationHistory(HttpServletRequest request, HttpServletResponse response);
+
+	ModelAndView payList(HttpServletRequest request, HttpServletResponse response);
 	
-	public ModelAndView reservationForm(HttpServletRequest request, HttpServletResponse response);
-	public ModelAndView payList(HttpServletRequest request, HttpServletResponse response);
-	public ModelAndView reservationHistory(HttpServletRequest request, HttpServletResponse response);
-	ModelAndView reservation(PayDTO paydto, HttpServletRequest request, HttpServletResponse response);
 }

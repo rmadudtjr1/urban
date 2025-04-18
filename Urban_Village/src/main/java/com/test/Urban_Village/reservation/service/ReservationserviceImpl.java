@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.test.Urban_Village.member.dao.MemberDAO;
 import com.test.Urban_Village.member.dao.MemberDAOImpl;
 import com.test.Urban_Village.member.dto.MemberDTO;
-import com.test.Urban_Village.member.dto.PayDTO;
+import com.test.Urban_Village.reservation.dto.PayDTO;
 import com.test.Urban_Village.reservation.dao.ReservationDAO;
 
 @Service

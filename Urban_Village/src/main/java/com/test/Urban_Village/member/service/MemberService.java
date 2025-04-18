@@ -10,17 +10,18 @@ public interface MemberService {
 	public List<MemberDTO> listMembers();
 	public MemberDTO login(String id, String pwd);
 	public int addMember(MemberDTO member);
-	boolean checkIfUserIdExists(String userId);
-	public void addPay(PayDTO payDto);
-	public List<PayDTO> payList();
+	public boolean checkIfUserIdExists(String userId);
+	
 	public List<MemberDTO> getUserInfoById(String id);
-	int updateUserInfo(MemberDTO member);
-	public List<PayDTO> reservationGetUserId(String loginId);
-	int deleteMember(String id);
-	List<PayDTO> getDailySales();
-	List<PayDTO> getMonthlySales();
-	List<PayDTO> getYearlySales();
+	public int updateUserInfo(MemberDTO member);
+	public int deleteMember(String id);
+	public List<PayDTO> getDailySales();
+	public List<PayDTO> getMonthlySales();
+	public List<PayDTO> getYearlySales();
 	public int findPwdForId(String member_id);
-	 List<MemberDTO> searchMembersById(String id);
-	public String findEmailById(String member_id); 
+	public List<MemberDTO> searchMembersById(String id);
+	public String findEmailById(String member_id);
+	public int modPwdMember(MemberDTO member);
+	public MemberDTO selectByEmail(String email);
+	public void insertGoogleUser(MemberDTO member); 
 }

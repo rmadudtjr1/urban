@@ -71,5 +71,9 @@ public boolean checkName(String accommodation_name) {
 public List<AccommodationDTO> searchAddress(List<String> regions) {
     return dao.searchByRegions(regions);
 }
-
+@Override
+public List<AccommodationDTO> searchAccommodation(String keyword) {
+   // TODO Auto-generated method stub
+   return dao.searchAccommodation(keyword);
+}
 }

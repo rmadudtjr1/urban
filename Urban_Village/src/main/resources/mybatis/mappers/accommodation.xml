@@ -115,4 +115,10 @@
 			accommodation_address LIKE '%' || #{region} || '%'
 		</foreach>
 	</select>
+	<select id="searchAccommodation" parameterType="string" resultType="accDTO">
+        SELECT * 
+        FROM accommodation
+        WHERE accommodation_name LIKE #{keyword}
+        or accommodation_address like #{keyword}
+    </select>
 </mapper>

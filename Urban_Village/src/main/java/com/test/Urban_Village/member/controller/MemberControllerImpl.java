@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -175,7 +176,7 @@ public class MemberControllerImpl implements MemberController {
 			// 성공 시 알림 후 로그인 페이지로 이동
 			out.write("<script>");
 			out.write("alert('회원 가입에 성공했습니다!');");
-			out.write("location.href='/Urban_Village/member/urbanLogin.do';");
+			out.write("location.href='/Urban_Village/member/loginForm.do';");
 			out.write("</script>");
 		} else {
 			// 실패 시 알림 후 다시 회원가입 폼으로
@@ -188,9 +189,18 @@ public class MemberControllerImpl implements MemberController {
 	}
 	@Override
 	@RequestMapping("/myInfo.do")
-	public ModelAndView myInfo(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView myInfo(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		List<MemberDTO> memberList = service.getUserInfoById(id);
 		ModelAndView mav = new ModelAndView();
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		if(id.contains("@")){
+			out.write("<script>");
+			out.write("alert('구글 로그인은 정보를 수정 할 수 없습니다.');");
+			out.write("location.href='/Urban_Village/';");
+			out.write("</script>");
+			return null;
+		}
 		String viewName = (String) request.getAttribute("viewName");
 		mav.setViewName(viewName);
 		mav.addObject("memberList", memberList);
@@ -236,108 +246,7 @@ public class MemberControllerImpl implements MemberController {
 			e.printStackTrace();
 		}
 	}
-	@Override
-	@RequestMapping("/reservationForm.do")
-	public ModelAndView reservationForm(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/reservationForm"); 
-		return mav;
-	}
-
-	@Override
-	@RequestMapping("/reservation.do")
-	public ModelAndView reservation(
-	        @RequestParam("accommodation_id") String accommodation_id,
-	        @RequestParam("reservation_id") String reservation_id,
-	        @RequestParam("checkin_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkin_date,
-	        @RequestParam("checkout_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkout_date,
-	        @RequestParam("guest_count") int guest_count,
-	        @RequestParam("total_price") double total_price,
-	        HttpServletRequest request, HttpServletResponse response) {
-
-	    ModelAndView mav = new ModelAndView();
-
-	    // 세션 가져오기
-	    HttpSession session = request.getSession(false);
-	    if (session == null || session.getAttribute("loginId") == null) {
-	        mav.setViewName("redirect:/member/loginForm.do");
-	        return mav;
-	    }
-
-	    // 세션에서 사용자 ID 가져오기
-	    String loginId = (String) session.getAttribute("loginId");
-
-	    // DTO 생성 및 값 설정
-	    PayDTO payDTO = new PayDTO();
-	    payDTO.setAccommodation_id(accommodation_id);
-	    payDTO.setReservation_id(reservation_id);
-	    payDTO.setCheckin_date(checkin_date);
-	    payDTO.setCheckout_date(checkout_date);
-	    payDTO.setGuest_count(guest_count);
-	    payDTO.setTotal_price(total_price);
-	    payDTO.setId(loginId);
-
-	    System.out.println("=== [예약 컨트롤러 진입] ===");
-	    System.out.println("숙소 ID: " + accommodation_id);
-	    System.out.println("예약 ID: " + reservation_id);
-	    System.out.println("체크인 날짜: " + checkin_date);
-	    System.out.println("체크아웃 날짜: " + checkout_date);
-	    System.out.println("게스트 수: " + guest_count);
-	    System.out.println("총 금액: " + total_price);
-	    System.out.println("회원 ID: " + loginId);
-
-	    try {
-	        // 예약 정보 저장
-	        service.addPay(payDTO);
-	        // 성공 시 리다이렉트
-	        mav.setViewName("redirect:/member/reservationHistory.do");
-	    } catch (Exception e) {
-	        System.out.println("예약 정보 저장 중 오류 발생: " + e.getMessage());
-	        e.printStackTrace();
-	        mav.setViewName("error/reservationError"); // 에러 페이지 따로 구성했다면
-	    }
-
-	    return mav;
-	}
-
-
-	@Override
-	@RequestMapping("/reservationHistory.do")
-	public ModelAndView reservationHistory(HttpServletRequest request, HttpServletResponse response) {
-		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView();
-		session = request.getSession(false);
-		if (session == null || session.getAttribute("loginId") == null) {
-			mav.setViewName("redirect:/member/loginForm.do");
-			System.out.println("로그인되지 않은 사용자");
-			return mav;
-		}
-		String loginId = (String) session.getAttribute("loginId");
-		System.out.println("로그인 아이디: " + loginId);
-		System.out.println("viewName: " + viewName);
-
-		if (loginId != null) {
-			List<PayDTO> userReservations = service.reservationGetUserId(loginId);
-			System.out.println("예약 정보: " + userReservations);
-			mav.addObject("reservations", userReservations);
-			mav.setViewName(viewName);
-		}
-
-		return mav;
-	}
-	@Override
-	@RequestMapping("/payList.do")
-	public ModelAndView payList(HttpServletRequest request, HttpServletResponse response){
-		// TODO Auto-generated method stub
-		List<PayDTO> payList = service.payList();
-		String viewName = (String)request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
-		session.setAttribute("payList", payList);
-		for(PayDTO pay : payList) {
-			System.out.println(pay);
-		}
-		return mav;
-	}
+	
 	@RequestMapping("/deleteMemberForm.do")
     public ModelAndView deleteMemberForm(HttpServletRequest request, HttpServletResponse response) {
        String viewName = (String) request.getAttribute("viewName");
@@ -437,59 +346,85 @@ public class MemberControllerImpl implements MemberController {
     }
     
     @RequestMapping("/findPwd.do")
-    public ModelAndView findPwd (HttpServletRequest request, HttpServletResponse response) {
-    	ModelAndView mav = new ModelAndView();
-    	String viewName = (String) request.getAttribute("viewName");
-    	mav.setViewName(viewName);
-    	return mav;
-    }
-    
-    @RequestMapping("/findId.do")
-    public ModelAndView findId (HttpServletRequest request, HttpServletResponse response) {
-    	ModelAndView mav = new ModelAndView();
-    	String viewName = (String) request.getAttribute("viewName");
-    	mav.setViewName(viewName);
+	public ModelAndView findPwd(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		mav.setViewName(viewName);
+		return mav;
+	}
 
-    	return mav;
-    }
+	@RequestMapping("/findPwdForId.do")
+	public int findPwdForId(@RequestParam("member_id") String member_id, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		int result = service.findPwdForId(member_id);
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		if (result > 0) {
+			out.println("<script>");
+			out.println("alert('아이디가 확인되었습니다. 가입된 메일로 인증번호를 전송합니다');");
+			out.println("location.href='" + request.getContextPath() + "/email/sendMemberPwd.do?member_id=" + member_id
+					+ "';");// 이메일 찾기로 이동함
+			out.println("</script>");
+		} else {
+			out.println("<script>");
+			out.println("alert('아이디가 존재하지 않습니다. 회원가입을 해주세요');");
+			out.println("location.href='" + request.getContextPath() + "/member/joinMember.do';"); // 아이디 찾기로 이동함
+			out.println("</script>");
+		}
+
+		return 0;
+	}
+
+	@RequestMapping("/checkCode.do")
+	public String checkCode (Model model,@RequestParam("code")int code,@RequestParam("member_id")String member_id,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		int pwdCode = (Integer) session.getAttribute("pwdCode");
+		System.out.println(pwdCode);
+		if (code == pwdCode) {
+		    model.addAttribute("codeSuccess", true);
+		    model.addAttribute("member_id", member_id);
+		    return "/member/codeCheckPwd"; // redirect 안 함
+		} else {
+			model.addAttribute("member_id", member_id);
+			model.addAttribute("codeError", "코드가 잘못되었습니다. 다시 입력해주세요.");
+			return "/member/codeCheckPwd";
+		}
+	}
+
+	@Override
+	@RequestMapping("/resetPwd.do")
+	public ModelAndView resetPwd(@RequestParam("id") String id, HttpServletRequest request,
+			HttpServletResponse response) {
+		List<MemberDTO> memberList = service.getUserInfoById(id);
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		mav.setViewName(viewName);
+		mav.addObject("memberList", memberList);
+		System.out.println(viewName);
+		return mav;
+	}
+
+	@RequestMapping("/modPwdMember.do")
+	public ModelAndView modPwdMember(@ModelAttribute() MemberDTO member, @RequestParam("id") String id,
+			@RequestParam("newPwd") String newPwd, HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		member.setPwd(newPwd);
+		int result = service.modPwdMember(member);
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		if (result == 1) {
+			out.write("<script>");
+			out.write("alert('수정성공. 로그인페이지로 이동합니다.');");
+			out.write("location.href='" + request.getContextPath() + "/member/loginForm.do';");
+			out.write("</script>");
+		} else {
+			out.write("<script>");
+			out.write("alert('수정실패. 다시 비밀번호를 설정해 주세요.');");
+			out.write("location.href='" + request.getContextPath() + "/member/resetPwd.do';");
+			out.write("</script>");
+		}
+
+		return null;
+	}
     
-    @RequestMapping("/findPwdForId.do")
-    public int findPwdForId (@RequestParam("member_id")String member_id ,HttpServletRequest request, HttpServletResponse response) throws IOException {
-    	int result = service.findPwdForId(member_id);
-		response.setContentType("text/html;charset=utf-8");
-    	PrintWriter out = response.getWriter();
-    	if (result > 0) {
-            out.println("<script>");
-            out.println("alert('아이디가 확인되었습니다.');");
-            out.println("location.href='" + request.getContextPath() +  "/email/sendMemberPwd.do?member_id=" + member_id + "';");//이메일 찾기로 이동함 
-            out.println("</script>");
-         } else {
-            out.println("<script>");
-            out.println("alert('아이디가 존재하지 않습니다. 아이디 찾기를 진행하세요');");
-            out.println("location.href='" + request.getContextPath() + "/member/findId.do';"); // 아이디 찾기로 이동함
-            out.println("</script>");
-         }
-    	
-    	return 0;
-    }
-  
-    @RequestMapping("/checkCode.do")
-    public void checkCode (@RequestParam("code")int code,@RequestParam("member_id")String member_id,HttpServletRequest request, HttpServletResponse response) throws IOException {
-    	int pwdCode = (Integer) session.getAttribute("pwdCode");
-    	System.out.println(pwdCode);
-		response.setContentType("text/html;charset=utf-8");
-    	PrintWriter out = response.getWriter();
-    	if(code == pwdCode) {
-    		out.println("<script>");
-            out.println("alert('정보수정 페이지로 이동합니다.');");
-            out.println("location.href='" + request.getContextPath() + "/member/myInfo.do?id=" + member_id + "';");
-            out.println("</script>");
-    	} else {
-    		out.println("<script>");
-            out.println("alert('코드가 잘못 되었습니다. 코드를 다시 입력하세요.');");
-            out.println("location.href='" + request.getContextPath() + "/email/sendMemberPwd.do?member_id=" + member_id + "';");
-            out.println("</script>");
-    	}
-    }
     
 }

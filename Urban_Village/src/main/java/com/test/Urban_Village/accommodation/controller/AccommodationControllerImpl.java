@@ -245,6 +245,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.test.Urban_Village.accommodation.dto.AccommodationDTO;
 import com.test.Urban_Village.accommodation.service.AccommodationService;
+import com.test.Urban_Village.ranking.service.RankingService;
 import com.test.Urban_Village.review.dto.ReviewDTO;
 import com.test.Urban_Village.review.service.ReviewService;
 
@@ -257,6 +258,8 @@ public class AccommodationControllerImpl implements AccommodationController {
 	HttpSession session;
 	@Autowired
 	ReviewService rService;
+	@Autowired
+	RankingService rankService;
 
 	private static final String TEMP_DIR = "D:\\image\\temp\\";
 	private static final String DEST_DIR = "D:\\image\\addImage\\";
@@ -268,7 +271,10 @@ public class AccommodationControllerImpl implements AccommodationController {
 		ModelAndView mav = new ModelAndView();
 		String viewName = (String) request.getAttribute("viewName");
 		mav.setViewName(viewName);
-
+		//이건 랭킹 숙소 가지고 오는거
+		List<String> topList = rankService.AccRankTop();
+	    mav.addObject("topList", topList);
+		
 		AccommodationDTO accommodation = service.findAccommodationId(accommodation_id);
 		session.setAttribute("accommodation", accommodation);
 		try {
@@ -296,25 +302,6 @@ public class AccommodationControllerImpl implements AccommodationController {
 		return mav;
 	}
 
-	/*
-	 * @Override
-	 * 
-	 * @RequestMapping("/accommodation.do") public ModelAndView
-	 * accommodation(@ModelAttribute("dto") AccommodationDTO dto,
-	 * HttpServletResponse response, HttpServletRequest request) throws IOException
-	 * { ModelAndView mav = new ModelAndView(); String viewName = (String)
-	 * request.getAttribute("viewName"); String generatedId =
-	 * service.addAccommodation(dto); boolean isSuccess = (generatedId != null &&
-	 * !generatedId.isEmpty());
-	 * 
-	 * PrintWriter out = response.getWriter();
-	 * 
-	 * if (isSuccess) { out.write("<script>alert('숙소 등록이 성공적으로 완료되었습니다. ID: " +
-	 * generatedId + "'); location.href='accommodationList.do';</script>"); } else {
-	 * out.
-	 * write("<script>alert('숙소 등록에 실패했습니다.'); location.href='accommodationForm.do';</script>"
-	 * ); } mav.setViewName("urbanMain"); return mav; }
-	 */
 
 	@Override
 	@RequestMapping(value = "/addNewAccommodation", method = RequestMethod.POST)
@@ -413,21 +400,7 @@ public class AccommodationControllerImpl implements AccommodationController {
 				return mav; 
 	}
 
-	/*
-	 * @Override
-	 * 
-	 * @RequestMapping("/accommodationList.do") public String
-	 * accommodationList(Model model) { // 숙소 목록을 조회 List<AccommodationDTO> accList
-	 * = service.accList(); // 각 숙소에 대해 평균 평점 설정 for (AccommodationDTO acc :
-	 * accList) { System.out.println("숙소 아이디: " + acc.getAccommodation_id()); Double
-	 * avgRating =
-	 * rService.getAverageRatingByAccommodationId(acc.getAccommodation_id()); if
-	 * (avgRating == null) { avgRating = 0.0; } acc.setAverageRating(avgRating); }
-	 * 
-	 * // 모델에 숙소 목록 추가 model.addAttribute("accommodationList", accList); return
-	 * "accommodationListPage"; }
-	 */
-
+	
 	@Override
 	@RequestMapping("/delAccommodation.do")
 	public ModelAndView delAccommodation(@RequestParam("accommodation_id") String accommodation_id, HttpServletResponse response, HttpServletRequest request) throws IOException {
@@ -556,11 +529,22 @@ public class AccommodationControllerImpl implements AccommodationController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/searchAccommodation", method = RequestMethod.GET)
+	   public ModelAndView searchAccommodation(@RequestParam("keyword") String keyword) {
+	       // 검색 로직 처리
+	       List<AccommodationDTO> searchResults = service.searchAccommodation(keyword);
+
+	       ModelAndView mav = new ModelAndView("/accommodation/searchResults");
+	       mav.addObject("searchResults", searchResults);
+	       return mav;
+	   }
+	
 	@RequestMapping("/startMain.do")
 	public ModelAndView startMain (HttpServletResponse response, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("startMain");
 		return mav;
 	}
 
+	
 
 }

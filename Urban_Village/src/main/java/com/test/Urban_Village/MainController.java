@@ -33,6 +33,8 @@ public class MainController {
 	    List<AccommodationDTO> accommodationList = service.accList();
 	    session.setAttribute("accommodationList", accommodationList);
 	    ModelAndView mav = new ModelAndView();
+	    
+
 	    List<AccommodationIdDTO> hostBestAccIdList = adminService.accIdListAll(accIdDTO);
 	    String memberId = (String) session.getAttribute("loginId");
         if (memberId != null) {
@@ -42,6 +44,7 @@ public class MainController {
             }
         }
 	    mav.addObject("hostBestAccIdList", hostBestAccIdList);
+	    session.setAttribute("hostBestAccIdList", hostBestAccIdList);
 	    mav.setViewName("urbanMain");
 	    return mav;
 	}

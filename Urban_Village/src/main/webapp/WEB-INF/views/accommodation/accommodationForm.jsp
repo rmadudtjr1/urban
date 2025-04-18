@@ -11,57 +11,114 @@
 <title>숙소 등록</title>
 <style>
 body {
-    font-family: sans-serif;
+    font-family: 'Malgun Gothic', sans-serif; /* Softened font */
     margin: 0;
     padding: 0;
-    background-color: #f7f7f7;
+    /* Hanok-like warm background color as a fallback */
+    background-color: #f8f4e3;
+    /* Background Image Styles */
+    background-image: url('${contextPath}/resources/WebSiteImages/bcd.png'); /* Correct web path */
+    background-size: cover; /* Scale image to cover the entire viewport */
+    background-position: center center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-attachment: fixed; /* Fix image relative to viewport */
+    position: relative; /* Needed for the ::before pseudo-element */
 }
 
+/* Semi-transparent overlay - Reduced transparency */
+body::before {
+    content: "";
+    position: fixed; /* Cover the entire viewport */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Reduced alpha from 0.7 to 0.4 for less transparency/blur */
+    background-color: rgba(253, 252, 249, 0.4); /* Semi-transparent overlay matching form background */
+    z-index: -1; /* Place it between the body background and the form */
+}
+
+
 .container {
-    width: 50%;
-    margin: 0 auto;
-    padding-top: 50px;
+    width: 80%; /* Make container wider to accommodate two columns */
+    max-width: 960px; /* Optional: Limit max width */
+    margin: 15px auto; /* Add top/bottom margin for spacing */
+    padding: 0; /* Remove padding-top */
+    position: relative; /* Ensure form is above the overlay */
+    z-index: 0; /* Ensure form is above the overlay */
 }
 
 .form-box {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Changed background-color to light grey for granite feel */
+    background-color: #e0e0e0; /* Light grey */
+    padding: 40px; /* Increased padding */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    border: 1px solid #c0c0c0; /* Subtle darker grey border */
+    /* Optional: Add a subtle texture if needed, but color is the main request */
+    /* background-image: url('path/to/subtle_granite_texture.png'); */
+    /* background-repeat: repeat; */
 }
+
+h2 {
+    text-align: center;
+    color: #404040; /* Darker grey heading color for contrast on light background */
+    margin-bottom: 30px; /* Space below title */
+}
+
+/* Two-column layout */
+.form-columns {
+    display: flex;
+    gap: 40px; /* Space between columns */
+    margin-bottom: 20px; /* Space below columns */
+}
+
+.form-column {
+    flex: 1; /* Columns take equal width */
+}
+
 
 /* 공통 입력 필드 */
 .input-field {
-    width: 100%;
-    padding: 12px;
+    width: 100%; /* Full width within its column */
+    padding: 12px 15px; /* Added horizontal padding */
     margin: 10px 0;
     border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 16px;
-    background-color: #f7f7f7;
+    border: 1px solid #b0b0b0; /* Slightly darker grey border */
+    font-size: 15px; /* Slightly smaller font */
+    background-color: #ffffff; /* Keep input background white for readability */
     transition: all 0.3s ease;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    color: #333; /* Default text color */
 }
 
 .input-field:focus {
-    border-color: #ff5a5f;
-    background-color: white;
+    border-color: #606060; /* Darker grey on focus */
+    box-shadow: 0 0 5px rgba(100, 100, 100, 0.3); /* Subtle shadow on focus */
     outline: none;
+}
+
+/* Placeholder text style */
+::placeholder {
+  color: #888; /* Muted grey placeholder color */
+  opacity: 1; /* Ensure color is not transparent */
 }
 
 /* 기본 버튼 스타일 */
 .submit-button {
-    background-color: #ff5a5f;
+    background-color: #555; /* Darker grey button */
     color: white;
     border: none;
     padding: 12px 24px;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 5px;
+    border-radius: 8px; /* Slightly more rounded */
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
-    background-color: #f44336;
+    background-color: #333; /* Even darker grey on hover */
 }
 
 /* row-flex 컨테이너 */
@@ -69,16 +126,28 @@ body {
     display: flex;
     gap: 10px;
     align-items: center;
+    margin: 10px 0; /* Add vertical margin to the row */
 }
 
-/* select 필드: 두 선택창이 가로로 동일한 넓이로 채움 */
+.row-flex label {
+    flex-shrink: 0; /* Prevent label from shrinking */
+    color: #404040; /* Match heading color */
+    font-weight: bold;
+    font-size: 15px;
+}
+
+
+/* select 필드 */
 .select-field {
     flex: 1;
-    padding: 12px;
+    padding: 12px 15px;
     border-radius: 8px;
-    border: 1px solid #ddd;
-    background-color: #f7f7f7;
-    font-size: 16px;
+    border: 1px solid #b0b0b0; /* Consistent with input fields */
+    background-color: #ffffff; /* Keep select background white */
+    font-size: 15px;
+    cursor: pointer;
+    box-sizing: border-box;
+    color: #333;
 }
 
 /* 숙소 이름 입력창은 flex로 확장 */
@@ -86,15 +155,61 @@ body {
     flex: 1;
 }
 
-/* 중복체크 버튼은 고정 너비 및 패딩 줄임 */
+/* 중복체크 버튼 */
 .check-button {
-    width: 120px;
-    padding: 8px 16px;
+    width: auto; /* Auto width based on content */
+    padding: 8px 16px; /* Smaller padding */
+    background-color: #d0d0d0; /* Lighter grey button */
+    color: #404040; /* Text color */
+    font-weight: normal;
+    border: 1px solid #b0b0b0; /* Subtle border */
 }
+
+.check-button:hover {
+     background-color: #c0c0c0; /* Slightly darker grey on hover */
+}
+
+/* Address specific input group styling */
+.input-group {
+    display: flex; /* Use flex for the input and button */
+    gap: 5px; /* Small gap between input and button */
+    flex-grow: 1; /* Allow the input group to grow */
+    align-items: center;
+}
+
+.input-group .address-input {
+     flex-grow: 1; /* Allow input to take available space */
+     margin: 0; /* Remove margin from within flex row */
+     width: auto; /* Override input-field 100% width */
+}
+
+.input-group .address-button {
+    flex-shrink: 0; /* Prevent button from shrinking */
+    padding: 8px 12px; /* Adjust button padding */
+    margin: 0; /* Remove margin from within flex row */
+    font-size: 14px; /* Slightly smaller font for button */
+     /* Inherits check-button style but can be overridden if needed */
+}
+
+/* Full width submit button below columns */
+.submit-button.full-width {
+    display: block; /* Make it a block element */
+    width: 100%; /* Full width of the form box */
+    margin-top: 30px; /* Space above the button */
+    padding: 15px 24px; /* Slightly larger padding for main button */
+    font-size: 18px; /* Larger font for main button */
+    background-color: #404040; /* Darker grey for main submit button */
+}
+.submit-button.full-width:hover {
+    background-color: #202020; /* Even darker grey on hover */
+}
+
+
 </style>
 
-<!-- ✅ jQuery 보안 적용 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 </head>
 <body>
     <div class="container">
@@ -102,64 +217,68 @@ body {
             action="${contextPath}/accommodation/addNewAccommodation"
             class="form-box" enctype="multipart/form-data">
             <h2>숙소 등록</h2>
-            <input type="text" name="accommodation_id"
-                value="등록 후 숙소 아이디가 자동으로 생성됩니다." class="input-field" required
-                readonly>
-            <input type="text" name="admin_id"
-                class="input-field" placeholder="관리자 ID" required>
 
-            <div class="row-flex">
-                <label class="form-label">주소 검색</label>
-            <div class="input-group mb-2">
-               <input type="text" class="form-control" name="zipNo" id="zipNo"
-                  placeholder="우편번호" readonly />
-               <button type="button" class="btn btn-outline-secondary"
-                  onclick="execDaumPostcode()">주소 검색</button>
-            </div>
-            <input type="text" class="form-control mb-2" name="accommodation_address"
-               id="roadAddrPart1" placeholder="도로명 주소" readonly />
-                
+            <div class="form-columns">
+                <div class="form-column">
+                    <input type="text" name="accommodation_id"
+                        value="등록 후 숙소 아이디가 자동으로 생성됩니다." class="input-field" required
+                        readonly>
+                    <input type="text" name="admin_id"
+                        class="input-field" placeholder="관리자 ID" required>
+
+                    <div class="row-flex">
+                         <label class="form-label">주소</label> <div class="input-group">
+                            <input type="text" class="input-field address-input" name="zipNo" id="zipNo"
+                                placeholder="우편번호" readonly />
+                            <button type="button" class="submit-button check-button address-button"
+                                onclick="execDaumPostcode()">주소 검색</button>
+                        </div>
+                    </div>
+                     <input type="text" class="input-field" name="accommodation_address"
+                        id="roadAddrPart1" placeholder="도로명 주소" readonly />
+
+
+                    <div class="row-flex">
+                        <input type="text" id="accommodationName" name="accommodation_name"
+                            class="input-field flex-grow" placeholder="숙소 이름" required>
+                        <button type="button" class="submit-button check-button"
+                            onclick="checkAccommodationName()">중복체크</button>
+                    </div>
+
+                    <input type="file" name="accommodation_photo[]" class="input-field" placeholder="숙소 사진 경로" required multiple>
+                    <input type="text" name="cleaner_admin_id" class="input-field" placeholder="청소 관리자 ID (선택)">
+                </div>
+
+                <div class="form-column">
+                    <input type="number" name="capacity" class="input-field" placeholder="최대 인원 수" required>
+                    <input type="number" name="room_count" class="input-field" placeholder="방 개수" required>
+                    <input type="number" name="bathroom_count" class="input-field" placeholder="화장실 개수" required>
+                    <input type="number" name="bed_count" class="input-field" placeholder="침대 수" required>
+                    <input type="number" name="price" class="input-field" placeholder="가격" required>
+                    <select name="wifi_avail" class="input-field" required>
+                        <option value="">와이파이 여부 선택</option>
+                        <option value="Y">Y</option>
+                        <option value="N">N</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="row-flex">
-                <!-- 숙소 이름 입력창은 좌측에 넓게 -->
-                <input type="text" id="accommodationName" name="accommodation_name"
-                    class="input-field flex-grow" placeholder="숙소 이름" required>
-                <!-- 중복체크 버튼은 우측에 고정 너비/높이 -->
-                <button type="button" class="submit-button check-button"
-                    onclick="checkAccommodationName()">중복체크</button>
-            </div>
-
-            <input type="file" name="accommodation_photo[]" class="input-field" placeholder="숙소 사진 경로" required multiple> 
-            <input type="text" name="cleaner_admin_id" class="input-field" placeholder="청소 관리자 ID (선택)"> 
-            <input type="number" name="capacity" class="input-field" placeholder="최대 인원 수" required>
-            <input type="number" name="room_count" class="input-field" placeholder="방 개수" required> 
-            <input type="number" name="bathroom_count" class="input-field" placeholder="화장실 개수" required> 
-            <input type="number" name="bed_count" class="input-field" placeholder="침대 수" required> 
-            <input type="number" name="price" class="input-field" placeholder="가격" required>
-            <select name="wifi_avail" class="input-field" required>
-                <option value="">와이파이 여부 선택</option>
-                <option value="Y">Y</option>
-                <option value="N">N</option>
-            </select>
-            <button type="submit" class="submit-button">등록</button>
+            <button type="submit" class="submit-button full-width">등록</button>
         </form>
     </div>
-    
-    <!-- ✅ 동적 세부 도시 처리 -->
-    <script>
-    
-    </script>
 
-    <!-- ✅ 숙소 이름 중복 체크 -->
     <script>
     function checkAccommodationName() {
         var accommodationName = $("#accommodationName").val();
-        console.log("중복 체크를 위한 숙소 이름: " + accommodationName); // 여기서 값 확인
+        console.log("중복 체크를 위한 숙소 이름: " + accommodationName);
+        if (accommodationName.trim() === "") {
+            alert("숙소 이름을 입력해주세요.");
+            return; // Prevent AJAX call if input is empty
+        }
         $.ajax({
             url: "${contextPath}/accommodation/checkName.do",
             method: "POST",
-            data: { accommodation_name: accommodationName }, // 파라미터 이름 일치 확인
+            data: { accommodation_name: accommodationName },
             success: function(response) {
                 if (response.exists) {
                     alert("숙소 이름이 이미 존재합니다.");
@@ -168,27 +287,57 @@ body {
                 }
             },
             error: function(xhr, status, err) {
-                alert("❌ 오류 발생:\nstatus: " + xhr.status + "\nmessage: " + err);
-                
+                 alert("❌ 오류 발생:\nstatus: " + xhr.status + "\nmessage: " + err);
+                 console.error("AJAX Error:", status, err, xhr.responseText); // Log full error
             }
         });
     }
+
+    // Daum Postcode script
     function execDaumPostcode() {
-        const width = 570;
-        const height = 420;
-        const left = (window.screen.width / 2) - (width / 2);
-        const top = (window.screen.height / 2) - (height / 2);
-        window.open(
-            "${pageContext.request.contextPath}/cleaner/jusoPopup",
-            "jusoPopup",
-            `width=${width},height=${height},left=${left},top=${top},scrollbars=yes`
-        );
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                // 내려오는 변수가 값이 없는 경우엔 방지하는 코드 추가
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('zipNo').value = data.zonecode; // 우편번호
+                document.getElementById("roadAddrPart1").value = roadAddr; // 도로명 주소
+
+                // TODO: Implement detailed address input if needed
+                // var jibunAddr = data.jibunAddress; // 지번 주소
+                // document.getElementById('jibunAddr').value = jibunAddr;
+                // document.getElementById('extraAddr').value = extraRoadAddr;
+
+                 // 상세주소 필드로 포커스 이동 또는 사용자 입력 유도
+                 // document.getElementById('detailAddress').focus();
+            }
+        }).open(); // Open the postcode popup
     }
 
-    function jusoCallBack(roadAddrPart1, zipNo) {
-        document.getElementById("roadAddrPart1").value = roadAddrPart1;
-        document.getElementById("zipNo").value = zipNo;
-    }
+    // Callback function is not needed with the new Daum Postcode API usage
+    // function jusoCallBack(roadAddrPart1, zipNo) {
+    //     document.getElementById("roadAddrPart1").value = roadAddrPart1;
+    //     document.getElementById("zipNo").value = zipNo;
+    // }
     </script>
 </body>
 </html>

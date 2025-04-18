@@ -55,23 +55,6 @@ public class MemberDAOImpl implements MemberDAO {
 		return count > 0; 
 	}
 
-	@Override
-	public void addPay(PayDTO payDto) {
-		// TODO Auto-generated method stub
-		sqlSession.insert("mapper.member.addPay", payDto);
-	}
-
-	@Override
-	public List<PayDTO> payList() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.member.payList") ;
-	}
-
-	@Override
-	public List<PayDTO> reservationGetUserId(String loginId) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.member.reservationGetUserId", loginId);
-	}
 	 @Override
 	   public int deleteMember(String id) {
 	      return sqlSession.delete("mapper.member.deleteMember", id);
@@ -110,4 +93,25 @@ public class MemberDAOImpl implements MemberDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.member.findEmailById", member_id);
 	}
+	
+	@Override
+	   public int modPwdMember(MemberDTO member) {
+	      // TODO Auto-generated method stub
+	      return sqlSession.update("mapper.member.modPwdMember",member);
+	   }
+
+	@Override
+	public MemberDTO selectByEmail(String email) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mapper.member.selectByEmail", email);
+	}
+
+	@Override
+	public void insertGoogleUser(MemberDTO member) {
+		// TODO Auto-generated method stub
+		sqlSession.insert("mapper.member.insertGoogleUser", member);
+	}
+
+	
+	
 }

@@ -54,24 +54,7 @@ public class MemberServiceImpl implements MemberService {
 	       }
 
 
-		@Override
-		public void addPay(PayDTO payDto) {
-			// TODO Auto-generated method stub
-			dao.addPay(payDto);
-			
-		}
-
-		@Override
-		public List<PayDTO> payList() {
-			// TODO Auto-generated method stub
-			return dao.payList();
-		}
-
-		@Override
-		public List<PayDTO> reservationGetUserId(String loginId) {
-			// TODO Auto-generated method stub
-			return dao.reservationGetUserId(loginId);
-		}
+	
 		
 		@Override
 		   public int deleteMember(String id) {
@@ -110,4 +93,24 @@ public class MemberServiceImpl implements MemberService {
 			// TODO Auto-generated method stub
 			return dao.findEmailById(member_id);
 		}
+		
+		@Override
+	      public int modPwdMember(MemberDTO member) {
+	         // TODO Auto-generated method stub
+	         return dao.modPwdMember(member);
+	      }
+
+		@Override
+		public MemberDTO selectByEmail(String email) {
+			// TODO Auto-generated method stub
+			return dao.selectByEmail(email);
+		}
+
+		@Override
+		public void insertGoogleUser(MemberDTO member) {
+			// TODO Auto-generated method stub
+			dao.insertGoogleUser(member);
+			return; 
+		}
+
 }

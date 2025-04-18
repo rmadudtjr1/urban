@@ -13,8 +13,17 @@ public class MemberDTO {
     private String name;              // 이름
     private Date regdate;             // 등록일
     private Date moddate;            // 수정일
+    private String join_type;        //구글로 로그인 했을 때 회원가입 처리
     
-    public String getId() {
+    public String getJoin_type() {
+		return join_type;
+	}
+
+	public void setJoin_type(String join_type) {
+		this.join_type = join_type;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -85,4 +94,6 @@ public class MemberDTO {
     public void setModdate(Date moddate) {
         this.moddate = moddate;
     }
+
+	
 }

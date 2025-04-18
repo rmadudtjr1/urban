@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.test.Urban_Village.accommodation.service.AccommodationService;
 import com.test.Urban_Village.admin.service.AdminService;
-import com.test.Urban_Village.member.dto.PayDTO;
+import com.test.Urban_Village.reservation.dto.PayDTO;
 import com.test.Urban_Village.reservation.service.ReservationService;
 
 @Controller
