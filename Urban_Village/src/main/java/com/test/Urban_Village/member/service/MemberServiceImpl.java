@@ -93,4 +93,10 @@ public class MemberServiceImpl implements MemberService {
 			// TODO Auto-generated method stub
 			return dao.findEmailById(member_id);
 		}
+		
+		@Override
+	      public int modPwdMember(MemberDTO member) {
+	         // TODO Auto-generated method stub
+	         return dao.modPwdMember(member);
+	      }
 }

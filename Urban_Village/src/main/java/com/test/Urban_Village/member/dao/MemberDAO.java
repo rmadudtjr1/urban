@@ -13,11 +13,12 @@ public interface MemberDAO {
 	public boolean checkIfUserIdExists(String userId);
 	public List<MemberDTO> getUserInfoById(String id);
 	public int updateUserInfo(MemberDTO member);
-	int deleteMember(String id);
-	List<PayDTO> getDailySales();
-	List<PayDTO> getMonthlySales();
-	List<PayDTO> getYearlySales();
+	public int deleteMember(String id);
+	public List<PayDTO> getDailySales();
+	public List<PayDTO> getMonthlySales();
+	public List<PayDTO> getYearlySales();
 	public int findPwdForId(String member_id);
-	List<MemberDTO> searchMembersById(String id);
+	public List<MemberDTO> searchMembersById(String id);
 	public String findEmailById(String member_id);
+	public int modPwdMember(MemberDTO member);
 }

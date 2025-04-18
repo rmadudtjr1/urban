@@ -19,6 +19,7 @@ public interface AccommodationService {
 	boolean checkAccommodationName(String accommodationName);
 	List<AccommodationDTO> searchAddress(List<String> regions);
 	boolean checkName(String accommodation_name);
+	List<AccommodationDTO> searchAccommodation(String keyword);
 
 
 }

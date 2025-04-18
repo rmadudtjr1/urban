@@ -21,8 +21,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
-<script type="text/javascript"
-	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4144168e9f9cd514608615aac5e437e5"></script>
+	<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4144168e9f9cd514608615aac5e437e5&libraries=services">
+</script>
+	
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -41,6 +43,7 @@
 
 .hidden {
 	display: none;
+	
 }
 .error-message {
          font-size: 0.9em;
@@ -206,6 +209,89 @@
     color: #ddd; /* 비어있는 별의 색상 */
     font-size: 20px; /* 별 크기 */
 }
+/*베스트숙소랑 인기숙소 글자 깜빡이는거*/
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.blink-text {
+  text-align : center;
+  color: red;
+  animation: blink 1s infinite;
+}
+
+/*이미지 네모 칸안에 여러개 담는거*/
+.image-grid-container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 9px;
+}
+
+.main-image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.sub-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 8px;
+  height: 100%;
+}
+
+.sub-image {
+  width: 100%;
+  aspect-ratio: 1 / 1.05;
+  overflow: hidden;
+}
+
+.sub-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.more-button button {
+  width: 100%;
+  height: 100%;
+  font-size: 13px;
+  font-weight: bold;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.detail-image-list {
+    display: flex;
+    flex-direction: column;
+    gap: 40px; /* 이미지 간 간격 */
+    align-items: center; /* 가운데 정렬 */
+    margin-top: 16px;
+}
+
+.detail-image-item {
+    width: 600px;     /* 너비 고정 */
+    height: 400px;    /* 높이 고정 */
+    object-fit: contain; /* 비율 유지하면서 자르기 */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 </style>
 </head>
 <body>
@@ -215,38 +301,57 @@
 
 			<h1 class="fw-bold">🌟
 				${sessionScope.accommodation.accommodation_name}</h1>
-			<span class="heart" onclick="toggleHeart()">❤️</span>
+			
+
 		</div>
 		<p class="text-muted">${sessionScope.accommodation.capacity}</p>
 		<p name="commodation_id">숙소 ID
 			:${sessionScope.accommodation.accommodation_id}</p>
-		 <div class="container mt-4">
-         <h3 class="fw-bold text-center">숙소 이미지</h3>
-         <div class="accommodation-image-container">
-            <!-- DB에 저장된 이미지 파일명이 콤마로 구분되어 있다고 가정 -->
-            <c:set var="imageStr"
-               value="${sessionScope.accommodation.accommodation_photo}" />
-            <c:set var="images" value="${fn:split(imageStr, ',')}" />
-            <c:forEach var="img" items="${images}" varStatus="status">
-               <img
-                   src="${contextPath}/download.do?imageFileName=${img}&accommodation_id=${sessionScope.accommodation.accommodation_id}&timestamp=<%= currentTimestamp %>"
-                   class="accommodation-image" alt="숙소 이미지"
-                   style="display: ${status.index == 0 ? 'block' : 'none'}"
-                   data-index="${status.index}" onclick="showModal(this.src, [...document.querySelectorAll('.accommodation-image')].map(el => el.src))">
-            </c:forEach>
-            <div class="image-navigation">
-               <button class="nav-button" id="prevButton">&lt;</button>
-               <button class="nav-button" id="nextButton">&gt;</button>
-            </div>
-         </div>
-      </div>
+		<div class="container mt-4">
+		<%-- 이미지 분리하는겨 --%>
+		<c:set var="imageStr" value="${sessionScope.accommodation.accommodation_photo}" />
+		<c:set var="images" value="${fn:split(imageStr, ',')}" />
 
+		<div class="image-grid-container">
+   		<div class="main-image">
+        	<c:if test="${not empty images}">
+            	<img src="${contextPath}/download.do?imageFileName=${images[0]}&accommodation_id=${sessionScope.accommodation.accommodation_id}" 
+                 alt="숙소 메인 이미지" />
+        	</c:if>
+    	</div>
+    	<div class="sub-images">
+        	<c:forEach var="img" items="${images}" varStatus="status">
+            	<c:if test="${status.index > 0 && status.index < 5}">
+                	<div class="sub-image">
+                    	<img src="${contextPath}/download.do?imageFileName=${img}&accommodation_id=${sessionScope.accommodation.accommodation_id}" 
+                         	alt="숙소 서브 이미지" />
+               		</div>
+            	</c:if>
+        	</c:forEach>
+
+        	<c:if test="${fn:length(images) > 5}">
+            	<div class="sub-image more-button">
+                	<button onclick="openImageModal()">사진 모두 보기</button>
+            	</div>
+        	</c:if>
+    	</div>
+		</div>
+		<div>
+          <c:forEach var="bestAcc" items="${sessionScope.hostBestAccIdList}">
+    		<c:if test="${sessionScope.accommodation.accommodation_id eq bestAcc.accommodation_id}">
+              <h3><p class="blink-text">★ 호스트 추천 숙소 ★</p></h3>
+            </c:if>
+           </c:forEach>
+       </div>
+       <c:forEach var="topList" items="${topList}">
+    		<c:if test="${sessionScope.accommodation.accommodation_id eq topList}">
+              <h3><p class="blink-text">★예약 1위 숙소★</p></h3>
+            </c:if>
+       </c:forEach>
 		<div class="row">
 			<div class="col-md-6">
 				<h3 class="fw-bold">${sessionScope.accommodation.price}원/ 박</h3>
-				<p>
-					<strong>⭐ 4.93 후기 294개</strong>
-				</p>
+				
 				<input type="date" id="checkin" class="form-control mb-2"
 					onchange="calculatePrice()" placeholder="YYYY-MM-DD"> <input
 					type="date" id="checkout" class="form-control mb-2"
@@ -281,8 +386,24 @@
 			</div>
 		</div>
 
-		<h3 class="mt-4">위치 ${sessionScope.accommodation.capacity}</h3>
+		<h3 class="mt-4">위치 : ${sessionScope.accommodation.accommodation_address}</h3>
 		<div id="map" style="width: 100%; height: 400px; background: #ddd;"></div>
+		
+		
+		
+		<div class="detailImage">
+    		<h2>숙소 상세 이미지</h2>
+    			<c:if test="${not empty images}">
+        			<div class="detail-image-list">
+            			<c:forEach var="img" items="${images}" varStatus="status">
+                			<img class="detail-image-item" src="${contextPath}/download.do?imageFileName=${img}&accommodation_id=${sessionScope.accommodation.accommodation_id}" />
+            			</c:forEach>
+        			</div>
+    			</c:if>
+		</div>
+
+		
+		
 
 		<h3 class="mt-4">📝 후기</h3>
       <div id="reviews">
@@ -355,29 +476,44 @@
 	    }
 	}
 
-    
-    // 카카오맵 초기화 함수
+    //지도에 위도 경도 띄우게 하는거
+    const roadAddress = '${sessionScope.accommodation.accommodation_address}';
     function initKakaoMap() {
-        var container = document.getElementById('map'); // 지도 표시 영역
+        var container = document.getElementById('map');
         var options = {
-            center: new kakao.maps.LatLng(37.653, 127.236), // 남양주 좌표
-            level: 5 // 확대 레벨 (낮을수록 더 확대)
+            center: new kakao.maps.LatLng(37.653, 127.236),
+            level: 5
         };
 
-        var map = new kakao.maps.Map(container, options); // 지도 생성
-        var marker = new kakao.maps.Marker({ 
-            position: new kakao.maps.LatLng(37.653, 127.236), 
-            map: map 
+        var map = new kakao.maps.Map(container, options);
+
+        // 주소 예시 (JSP에서 넘어오는 값으로 교체)
+        var roadAddress = '${sessionScope.accommodation.accommodation_address}';
+
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        geocoder.addressSearch(roadAddress, function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="padding:5px; text-align: center; font-weight: bold; white-space: nowrap;">숙소 : ${sessionScope.accommodation.accommodation_name}</div>'
+                });
+                infowindow.open(map, marker);
+
+                map.setCenter(coords);
+            } else {
+                alert("주소를 찾을 수 없습니다.");
+            }
         });
     }
 
-    // 찜하기(하트) 기능
-    function toggleHeart() {
-        let heart = document.querySelector(".heart");
-        heart.classList.toggle("active");
-        alert(heart.classList.contains("active") ? "찜 목록에 추가되었습니다!" : "찜 목록에서 제거되었습니다.");
-    }
-	
+
     
     
     document.addEventListener('DOMContentLoaded', function() {
@@ -434,7 +570,7 @@
                 errorMsg.textContent = "체크아웃 날짜는 체크인 날짜 이후여야 합니다.";
                 document.getElementById("checkout").insertAdjacentElement('afterend', errorMsg);
             }
-            document.getElementById("checkout").focus();
+            document.getElementById("checkin").focus();
             hasError = true;
         }
 
@@ -471,7 +607,7 @@
     }
 
 
-
+   
     // 후기 더보기 기능
     function toggleReviews() {
         document.querySelectorAll(".review.hidden").forEach(el => el.classList.toggle("hidden"));

@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.test.Urban_Village.member.dto.MemberDTO;
-import com.test.Urban_Village.member.dto.PayDTO;
+import com.test.Urban_Village.reservation.dto.PayDTO;
 
 public interface ReservationDAO {
 	

@@ -32,6 +32,8 @@ public interface AccommodationDAO {
 
 	List<AccommodationDTO> searchByRegions(List<String> regions);
 
+	List<AccommodationDTO> searchAccommodation(String keyword);
+
 	
 
 

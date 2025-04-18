@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.test.Urban_Village.member.dto.MemberDTO;
-import com.test.Urban_Village.member.dto.PayDTO;
+import com.test.Urban_Village.reservation.dto.PayDTO;
 
 @Repository
 public class ReservationDAOImpl implements ReservationDAO {

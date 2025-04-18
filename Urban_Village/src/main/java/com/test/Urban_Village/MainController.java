@@ -42,6 +42,7 @@ public class MainController {
             }
         }
 	    mav.addObject("hostBestAccIdList", hostBestAccIdList);
+	    session.setAttribute("hostBestAccIdList", hostBestAccIdList);
 	    mav.setViewName("urbanMain");
 	    return mav;
 	}

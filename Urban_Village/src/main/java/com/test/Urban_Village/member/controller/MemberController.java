@@ -33,4 +33,5 @@ public interface MemberController {
 	public ModelAndView getDailySales(HttpServletRequest request, HttpServletResponse response);
 	public ModelAndView getMonthlySales(HttpServletRequest request, HttpServletResponse response);
 	public ModelAndView getYearlySales(HttpServletRequest request, HttpServletResponse response);
+	ModelAndView resetPwd(String id, HttpServletRequest request, HttpServletResponse response);
 }

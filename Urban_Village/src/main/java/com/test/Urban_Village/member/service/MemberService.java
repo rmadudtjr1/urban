@@ -20,5 +20,6 @@ public interface MemberService {
 	public List<PayDTO> getYearlySales();
 	public int findPwdForId(String member_id);
 	public List<MemberDTO> searchMembersById(String id);
-	public String findEmailById(String member_id); 
+	public String findEmailById(String member_id);
+	public int modPwdMember(MemberDTO member); 
 }

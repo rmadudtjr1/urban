@@ -79,5 +79,3 @@
     </div>
 </body>
 </html>
-----------------------------
-accommodation -> searchResults

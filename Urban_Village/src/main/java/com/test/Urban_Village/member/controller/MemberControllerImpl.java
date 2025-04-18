@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -336,59 +337,85 @@ public class MemberControllerImpl implements MemberController {
     }
     
     @RequestMapping("/findPwd.do")
-    public ModelAndView findPwd (HttpServletRequest request, HttpServletResponse response) {
-    	ModelAndView mav = new ModelAndView();
-    	String viewName = (String) request.getAttribute("viewName");
-    	mav.setViewName(viewName);
-    	return mav;
-    }
-    
-    @RequestMapping("/findId.do")
-    public ModelAndView findId (HttpServletRequest request, HttpServletResponse response) {
-    	ModelAndView mav = new ModelAndView();
-    	String viewName = (String) request.getAttribute("viewName");
-    	mav.setViewName(viewName);
+	public ModelAndView findPwd(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		mav.setViewName(viewName);
+		return mav;
+	}
 
-    	return mav;
-    }
+	@RequestMapping("/findPwdForId.do")
+	public int findPwdForId(@RequestParam("member_id") String member_id, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		int result = service.findPwdForId(member_id);
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		if (result > 0) {
+			out.println("<script>");
+			out.println("alert('아이디가 확인되었습니다. 가입된 메일로 인증번호를 전송합니다');");
+			out.println("location.href='" + request.getContextPath() + "/email/sendMemberPwd.do?member_id=" + member_id
+					+ "';");// 이메일 찾기로 이동함
+			out.println("</script>");
+		} else {
+			out.println("<script>");
+			out.println("alert('아이디가 존재하지 않습니다. 회원가입을 해주세요');");
+			out.println("location.href='" + request.getContextPath() + "/member/joinMember.do';"); // 아이디 찾기로 이동함
+			out.println("</script>");
+		}
+
+		return 0;
+	}
+
+	@RequestMapping("/checkCode.do")
+	public String checkCode (Model model,@RequestParam("code")int code,@RequestParam("member_id")String member_id,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		int pwdCode = (Integer) session.getAttribute("pwdCode");
+		System.out.println(pwdCode);
+		if (code == pwdCode) {
+		    model.addAttribute("codeSuccess", true);
+		    model.addAttribute("member_id", member_id);
+		    return "/member/codeCheckPwd"; // redirect 안 함
+		} else {
+			model.addAttribute("member_id", member_id);
+			model.addAttribute("codeError", "코드가 잘못되었습니다. 다시 입력해주세요.");
+			return "/member/codeCheckPwd";
+		}
+	}
+
+	@Override
+	@RequestMapping("/resetPwd.do")
+	public ModelAndView resetPwd(@RequestParam("id") String id, HttpServletRequest request,
+			HttpServletResponse response) {
+		List<MemberDTO> memberList = service.getUserInfoById(id);
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		mav.setViewName(viewName);
+		mav.addObject("memberList", memberList);
+		System.out.println(viewName);
+		return mav;
+	}
+
+	@RequestMapping("/modPwdMember.do")
+	public ModelAndView modPwdMember(@ModelAttribute() MemberDTO member, @RequestParam("id") String id,
+			@RequestParam("newPwd") String newPwd, HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		member.setPwd(newPwd);
+		int result = service.modPwdMember(member);
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		if (result == 1) {
+			out.write("<script>");
+			out.write("alert('수정성공. 로그인페이지로 이동합니다.');");
+			out.write("location.href='" + request.getContextPath() + "/member/loginForm.do';");
+			out.write("</script>");
+		} else {
+			out.write("<script>");
+			out.write("alert('수정실패. 다시 비밀번호를 설정해 주세요.');");
+			out.write("location.href='" + request.getContextPath() + "/member/resetPwd.do';");
+			out.write("</script>");
+		}
+
+		return null;
+	}
     
-    @RequestMapping("/findPwdForId.do")
-    public int findPwdForId (@RequestParam("member_id")String member_id ,HttpServletRequest request, HttpServletResponse response) throws IOException {
-    	int result = service.findPwdForId(member_id);
-		response.setContentType("text/html;charset=utf-8");
-    	PrintWriter out = response.getWriter();
-    	if (result > 0) {
-            out.println("<script>");
-            out.println("alert('아이디가 확인되었습니다.');");
-            out.println("location.href='" + request.getContextPath() +  "/email/sendMemberPwd.do?member_id=" + member_id + "';");//이메일 찾기로 이동함 
-            out.println("</script>");
-         } else {
-            out.println("<script>");
-            out.println("alert('아이디가 존재하지 않습니다. 아이디 찾기를 진행하세요');");
-            out.println("location.href='" + request.getContextPath() + "/member/findId.do';"); // 아이디 찾기로 이동함
-            out.println("</script>");
-         }
-    	
-    	return 0;
-    }
-  
-    @RequestMapping("/checkCode.do")
-    public void checkCode (@RequestParam("code")int code,@RequestParam("member_id")String member_id,HttpServletRequest request, HttpServletResponse response) throws IOException {
-    	int pwdCode = (Integer) session.getAttribute("pwdCode");
-    	System.out.println(pwdCode);
-		response.setContentType("text/html;charset=utf-8");
-    	PrintWriter out = response.getWriter();
-    	if(code == pwdCode) {
-    		out.println("<script>");
-            out.println("alert('정보수정 페이지로 이동합니다.');");
-            out.println("location.href='" + request.getContextPath() + "/member/myInfo.do?id=" + member_id + "';");
-            out.println("</script>");
-    	} else {
-    		out.println("<script>");
-            out.println("alert('코드가 잘못 되었습니다. 코드를 다시 입력하세요.');");
-            out.println("location.href='" + request.getContextPath() + "/email/sendMemberPwd.do?member_id=" + member_id + "';");
-            out.println("</script>");
-    	}
-    }
     
 }

@@ -80,5 +80,10 @@ public boolean checkName(String accommodation_name) {
 public List<AccommodationDTO> searchByRegions(List<String> regions) {
     return session.selectList("mapper.accommodation.searchByRegions", regions);
 }
-
+@Override
+public List<AccommodationDTO> searchAccommodation(String keyword) {
+    // keyword를 LIKE 검색을 위해 처리
+    String searchKeyword = "%" + keyword + "%";
+    return session.selectList("mapper.accommodation.searchAccommodation", searchKeyword);
+}
 }

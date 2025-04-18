@@ -93,4 +93,10 @@ public class MemberDAOImpl implements MemberDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.member.findEmailById", member_id);
 	}
+	
+	@Override
+	   public int modPwdMember(MemberDTO member) {
+	      // TODO Auto-generated method stub
+	      return sqlSession.update("mapper.member.modPwdMember",member);
+	   }
 }
