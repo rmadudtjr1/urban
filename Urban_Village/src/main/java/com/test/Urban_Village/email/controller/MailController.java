@@ -88,7 +88,16 @@ public class MailController {
         msg += "</div>";
         msg += "</body></html>";
 
-        service.sendMail(email, "Urban_Village 가입인증번호", msg);
+
+        try {
+            service.sendMail(email, "Urban_Village 가입인증번호", msg);
+            out.print("success"); // 성공 시 "success" 전송
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.print("fail");    // 실패 시 "fail" 전송
+        } finally {
+            out.close();
+        }
     }
 	
 	@RequestMapping("/checkJoinCode.do")

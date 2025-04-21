@@ -112,6 +112,40 @@ public class MemberDAOImpl implements MemberDAO {
 		sqlSession.insert("mapper.member.insertGoogleUser", member);
 	}
 
+	@Override
+	   public int addCoupon(MemberDTO member) {
+	      // TODO Auto-generated method stub
+	      return sqlSession.insert("mapper.member.addCoupon", member);
+	   }
+	@Override
+	   public List<MemberDTO> getCouponsByMemberId(String loginId) {
+	      List<MemberDTO> couponList = sqlSession.selectList("mapper.member.selectCoupon", loginId);
+	      return couponList;
+	   }
+
+	   @Override
+	   public void updateCouponStatus(String coupon_id) {
+	      sqlSession.update("mapper.member.updateCouponStatus", coupon_id);
+	      
+	   }
+
+	   @Override
+	   public int modCoupon(String coupon_id) {
+	      // TODO Auto-generated method stub
+	      return sqlSession.update("mapper.member.modCoupon", coupon_id);
+	   }
+
+	   @Override
+	   public List<MemberDTO> getCouponsByMemberId1(String loginId) {
+	      List<MemberDTO> couponList = sqlSession.selectList("mapper.member.selectCoupon1", loginId);
+	      return couponList;
+	   }
+
+	   @Override
+	   public List<MemberDTO> getMyCoupon(String loginId) {
+	      List<MemberDTO> coupon = sqlSession.selectList("mapper.member.getMyCoupon", loginId);
+	      return coupon;
+	   }
 	
 	
 }

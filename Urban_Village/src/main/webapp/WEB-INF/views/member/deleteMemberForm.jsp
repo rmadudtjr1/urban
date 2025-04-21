@@ -21,7 +21,7 @@
         color: #333;
     }
 
-    .container {
+    .deldelcontainer {
         max-width: 600px;
         margin: 40px auto;
         background: #fff;
@@ -30,20 +30,20 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     }
 
-    h1 {
+    .delh1 {
         text-align: center;
         font-size: 24px;
         margin-bottom: 30px;
         color: #2c2c2c;
     }
 
-    label {
+    .dellabel {
         display: block;
         margin-bottom: 8px;
         font-weight: 500;
     }
 
-    input[type="text"], input[type="password"] {
+    .delinput[type="text"], .delinput[type="password"] {
         width: 100%;
         padding: 12px;
         margin-bottom: 20px;
@@ -53,7 +53,7 @@
         box-sizing: border-box;
     }
 
-    .btn-danger {
+    .delbtn-danger {
         background-color: #ff5a5f;
         border: none;
         color: white;
@@ -65,11 +65,11 @@
         margin-right: 10px;
     }
 
-    .btn-danger:hover {
+    .delbtn-danger:hover {
         background-color: #ff4c4c;
     }
 
-    .btn-secondary {
+    .delbtn-secondary {
         background-color: #ccc;
         border: none;
         color: #333;
@@ -79,11 +79,11 @@
         cursor: pointer;
     }
 
-    .btn-secondary:hover {
+    .delbtn-secondary:hover {
         background-color: #bbb;
     }
 
-    .form-group {
+    .delform-group {
         margin-bottom: 20px;
     }
 </style>
@@ -108,19 +108,19 @@
 </script>
 </head>
 <body>
-    <div class="container">
-        <h1>회원 탈퇴</h1>
+    <div class="deldelcontainer">
+        <h1 class="delh1">회원 탈퇴</h1>
         <form name="deleteForm" action="${contextPath}/member/deleteMember.do" method="post" onsubmit="return validateForm()">
-            <div class="form-group">
-                <label for="id">아이디:</label>
-                <input type="text" id="id" name="id" value="${sessionScope.loginId}" readonly>
+            <div class="delform-group">
+                <label for="id" class="dellabel">아이디:</label>
+                <input type="text" id="id" name="id" value="${sessionScope.loginId}" class="delinput" readonly>
             </div>
-            <div class="form-group">
-                <label for="pwd">비밀번호:</label>
-                <input type="password" id="pwd" name="pwd">
+            <div class="delform-group">
+                <label for="pwd" class="dellabel">비밀번호:</label>
+                <input type="password" id="pwd" name="pwd" class="delinput">
             </div>
-            <button type="button" class="btn btn-danger" onclick="deleteConfirm()">회원 탈퇴</button>
-            <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
+            <button type="button" class="delbtn-danger" onclick="deleteConfirm()">회원 탈퇴</button>
+            <button type="button" class="delbtn-secondary" onclick="history.back()">취소</button>
         </form>
     </div>
 </body>

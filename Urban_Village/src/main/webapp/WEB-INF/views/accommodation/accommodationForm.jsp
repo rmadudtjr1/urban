@@ -25,7 +25,7 @@ body {
     position: relative; /* Needed for the ::before pseudo-element */
 }
 
-/* Semi-transparent overlay - Reduced transparency */
+/* Semi-transparent overlay - Kept from previous version */
 body::before {
     content: "";
     position: fixed; /* Cover the entire viewport */
@@ -33,8 +33,8 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    /* Reduced alpha from 0.7 to 0.4 for less transparency/blur */
-    background-color: rgba(253, 252, 249, 0.4); /* Semi-transparent overlay matching form background */
+    /* Alpha value controls transparency - adjust if needed */
+    background-color: rgba(253, 252, 249, 0.4);
     z-index: -1; /* Place it between the body background and the form */
 }
 
@@ -49,20 +49,17 @@ body::before {
 }
 
 .form-box {
-    /* Changed background-color to light grey for granite feel */
-    background-color: #e0e0e0; /* Light grey */
+    /* Changed background-color to white */
+    background-color: #ffffff; /* White background */
     padding: 40px; /* Increased padding */
     border-radius: 15px; /* More rounded corners */
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Softer shadow */
-    border: 1px solid #c0c0c0; /* Subtle darker grey border */
-    /* Optional: Add a subtle texture if needed, but color is the main request */
-    /* background-image: url('path/to/subtle_granite_texture.png'); */
-    /* background-repeat: repeat; */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    border: 1px solid #e0e0e0; /* Subtle light grey border */
 }
 
 h2 {
     text-align: center;
-    color: #404040; /* Darker grey heading color for contrast on light background */
+    color: #5a4a3a; /* Earthy heading color (can be adjusted if needed) */
     margin-bottom: 30px; /* Space below title */
 }
 
@@ -84,42 +81,38 @@ h2 {
     padding: 12px 15px; /* Added horizontal padding */
     margin: 10px 0;
     border-radius: 8px;
-    border: 1px solid #b0b0b0; /* Slightly darker grey border */
+    border: 1px solid #d3cbbd; /* Muted border color, consistent with Hanok feel */
     font-size: 15px; /* Slightly smaller font */
-    background-color: #ffffff; /* Keep input background white for readability */
+    background-color: #fff; /* Keep input background white */
     transition: all 0.3s ease;
     box-sizing: border-box; /* Include padding and border in element's total width and height */
     color: #333; /* Default text color */
 }
 
 .input-field:focus {
-    border-color: #606060; /* Darker grey on focus */
-    box-shadow: 0 0 5px rgba(100, 100, 100, 0.3); /* Subtle shadow on focus */
+    border-color: #a52a2a; /* Earthy red on focus, or change to brown if preferred */
+    box-shadow: 0 0 5px rgba(165, 42, 42, 0.3); /* Subtle shadow on focus */
     outline: none;
 }
 
 /* Placeholder text style */
 ::placeholder {
-  color: #888; /* Muted grey placeholder color */
+  color: #a1988d; /* Muted placeholder color */
   opacity: 1; /* Ensure color is not transparent */
 }
 
-/* 기본 버튼 스타일 */
+/* 기본 버튼 스타일 (Main Submit Button color handled by .full-width) */
 .submit-button {
-    background-color: #555; /* Darker grey button */
-    color: white;
+    /* Default styles inherited by other buttons, overridden for main submit */
     border: none;
     padding: 12px 24px;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 8px; /* Slightly more rounded */
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.submit-button:hover {
-    background-color: #333; /* Even darker grey on hover */
-}
 
 /* row-flex 컨테이너 */
 .row-flex {
@@ -131,7 +124,7 @@ h2 {
 
 .row-flex label {
     flex-shrink: 0; /* Prevent label from shrinking */
-    color: #404040; /* Match heading color */
+    color: #5a4a3a; /* Match heading color */
     font-weight: bold;
     font-size: 15px;
 }
@@ -142,7 +135,7 @@ h2 {
     flex: 1;
     padding: 12px 15px;
     border-radius: 8px;
-    border: 1px solid #b0b0b0; /* Consistent with input fields */
+    border: 1px solid #d3cbbd; /* Consistent with input fields */
     background-color: #ffffff; /* Keep select background white */
     font-size: 15px;
     cursor: pointer;
@@ -155,18 +148,18 @@ h2 {
     flex: 1;
 }
 
-/* 중복체크 버튼 */
+/* 중복체크 및 주소 검색 버튼 (Light Brown) */
 .check-button {
     width: auto; /* Auto width based on content */
     padding: 8px 16px; /* Smaller padding */
-    background-color: #d0d0d0; /* Lighter grey button */
-    color: #404040; /* Text color */
+    background-color: #d2b48c; /* Tan (Light Brown) */
+    color: #3e2723; /* Dark brown text color for contrast */
     font-weight: normal;
-    border: 1px solid #b0b0b0; /* Subtle border */
+    border: 1px solid #b09070; /* Slightly darker light brown border */
 }
 
 .check-button:hover {
-     background-color: #c0c0c0; /* Slightly darker grey on hover */
+     background-color: #c3a37b; /* Slightly darker light brown on hover */
 }
 
 /* Address specific input group styling */
@@ -188,22 +181,22 @@ h2 {
     padding: 8px 12px; /* Adjust button padding */
     margin: 0; /* Remove margin from within flex row */
     font-size: 14px; /* Slightly smaller font for button */
-     /* Inherits check-button style but can be overridden if needed */
+     /* Inherits check-button style */
 }
 
-/* Full width submit button below columns */
+/* Full width submit button (Dark Brown) */
 .submit-button.full-width {
     display: block; /* Make it a block element */
     width: 100%; /* Full width of the form box */
     margin-top: 30px; /* Space above the button */
     padding: 15px 24px; /* Slightly larger padding for main button */
     font-size: 18px; /* Larger font for main button */
-    background-color: #404040; /* Darker grey for main submit button */
+    background-color: #5a4a3a; /* Dark brown */
+    color: white; /* White text for contrast */
 }
 .submit-button.full-width:hover {
-    background-color: #202020; /* Even darker grey on hover */
+    background-color: #3e2723; /* Even darker brown on hover */
 }
-
 
 </style>
 

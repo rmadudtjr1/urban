@@ -16,6 +16,7 @@ import com.test.Urban_Village.accommodation.dto.AccommodationDTO;
 import com.test.Urban_Village.accommodation.dto.AccommodationIdDTO;
 import com.test.Urban_Village.accommodation.service.AccommodationService;
 import com.test.Urban_Village.admin.service.AdminService;
+import com.test.Urban_Village.review.service.ReviewService;
 import com.test.Urban_Village.wishList.service.WishListService;
 
 @Controller
@@ -27,6 +28,8 @@ public class MainController {
 	AdminService adminService;
 	@Autowired
 	WishListService wishListService;
+	@Autowired
+	ReviewService rService;
 
 	@RequestMapping(value= {"/", "/main"}) 
 	public ModelAndView main(HttpSession session,@ModelAttribute("AccommodationIdDTO") AccommodationIdDTO accIdDTO, @ModelAttribute AccommodationDTO accDTO) {
@@ -43,6 +46,20 @@ public class MainController {
                 acc.setLiked(liked);  // AccommodationDTO에 setLiked(boolean) 필요
             }
         }
+        
+        for (AccommodationDTO acc : accommodationList) {
+            Double avgRating = rService.getAverageRatingByAccommodationId(acc.getAccommodation_id());
+            if (avgRating == null) {
+                avgRating = 0.0;
+            }
+            acc.setAverageRating(avgRating);
+            
+          String latestReview = rService.getLatestReview(acc.getAccommodation_id()); // 최신 리뷰 한 개
+          System.out.println(latestReview);
+          acc.setLatestReview(latestReview);
+          
+        }
+        
 	    mav.addObject("hostBestAccIdList", hostBestAccIdList);
 	    session.setAttribute("hostBestAccIdList", hostBestAccIdList);
 	    mav.setViewName("urbanMain");

@@ -41,7 +41,7 @@
               <a href="${contextPath}/accommodation/searchAddress?keyword=예천ㆍ안동ㆍ영주ㆍ봉화">예천 ㆍ 안동 ㆍ 영주 ㆍ 봉화</a> 
               <a href="${contextPath}/accommodation/searchAddress?keyword=영양ㆍ울진ㆍ영덕ㆍ청송">영양 ㆍ 울진 ㆍ 영덕 ㆍ 청송</a> 
               <a href="${contextPath}/accommodation/searchAddress?keyword=포항ㆍ영천ㆍ경주ㆍ경산">포항 ㆍ 영천 ㆍ 경주 ㆍ 경산</a> 
-              <a href="${contextPath}/accommodation/searchAddress?keyword=한옥ㆍ울릉ㆍ청도ㆍ독도">한옥 ㆍ 울릉 ㆍ 청도 ㆍ 독도</a>
+              <a href="${contextPath}/accommodation/searchAddress?keyword=한옥ㆍ울릉ㆍ청도ㆍ독도">울릉 ㆍ 청도 ㆍ 독도</a>
             </div>
         </div>
         

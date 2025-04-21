@@ -3,6 +3,8 @@ package com.test.Urban_Village.common.file;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,11 +25,14 @@ private static final String ACCOMMODATION_REPO1 = "D:\\image\\reviewImage";
         String downFile = ACCOMMODATION_REPO + "\\" + accommodation_id + "\\" + imageFileName;
         File file = new File(downFile);
         
+        // 한글 파일명 처리
+        String encodedFileName = URLEncoder.encode(imageFileName, StandardCharsets.UTF_8.toString()).replaceAll("\\+", "%20");
+        
         // 캐시 무효화 관련 헤더 
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Expires", "0");
-        response.addHeader("Content-Disposition", "attachment;fileName=" + imageFileName);
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + encodedFileName + "\"");
         
         FileInputStream in = new FileInputStream(file);
         byte[] buffer = new byte[1024 * 8];
@@ -47,11 +52,14 @@ private static final String ACCOMMODATION_REPO1 = "D:\\image\\reviewImage";
         String downFile = ACCOMMODATION_REPO1 + "\\" + review_id + "\\" + imageFileName;
         File file = new File(downFile);
         
+        // 한글 파일명 처리
+        String encodedFileName = URLEncoder.encode(imageFileName, StandardCharsets.UTF_8.toString()).replaceAll("\\+", "%20");
+        
         // 캐시 무효화 관련 헤더 
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Expires", "0");
-        response.addHeader("Content-Disposition", "attachment;fileName=" + imageFileName);
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + encodedFileName + "\"");
         
         FileInputStream in = new FileInputStream(file);
         byte[] buffer = new byte[1024 * 8];

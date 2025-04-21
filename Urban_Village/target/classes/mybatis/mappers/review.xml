@@ -11,6 +11,8 @@
 		<result property="rating" column="rating"></result>
 		<result property="review_photo" column="review_photo"></result>
 		<result property="averageRating" column="averageRating"></result>
+		<result property="accommodation_id"
+			column="accommodation_id"></result>
 	</resultMap>
 
 
@@ -36,6 +38,7 @@
 	<!-- 리뷰 삽입 -->
 <insert id="insertReview" parameterType="map">
     INSERT INTO review (
+    accommodation_id,
     	accommodation_name,
         id,
         review_data,
@@ -43,6 +46,7 @@
         review_photo,
         created_at
     ) VALUES (
+    #{accommodation_id},
     	#{accommodation_name},
         #{id},
         #{review_data},
@@ -64,5 +68,15 @@
     SELECT ROUND(AVG(rating), 2) AS averageRating
     FROM review
     WHERE accommodation_id = #{accommodationId}
+</select>
+<select id="getLatestReview" parameterType="String" resultType="String">
+    SELECT review_data
+      FROM (
+          SELECT review_data
+          FROM review
+          WHERE accommodation_id = #{accommodation_id}
+          ORDER BY created_at DESC
+      )
+      WHERE ROWNUM = 1
 </select>
 </mapper> 

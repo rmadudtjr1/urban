@@ -379,7 +379,7 @@ public class AccommodationControllerImpl implements AccommodationController {
 
 	@Override
 	@RequestMapping(value= {"/", "/main"})
-	public ModelAndView main(HttpServletResponse response, HttpServletRequest request) {
+	public ModelAndView main1(HttpServletResponse response, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		List<AccommodationDTO> accommodationList = service.accList();
 		mav.addObject("accommodationList", accommodationList);
@@ -539,11 +539,27 @@ public class AccommodationControllerImpl implements AccommodationController {
 	       return mav;
 	   }
 	
-	@RequestMapping("/startMain.do")
-	public ModelAndView startMain (HttpServletResponse response, HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("startMain");
-		return mav;
-	}
+	@RequestMapping("/main.do")
+	   public ModelAndView main(HttpServletResponse response, HttpServletRequest request) {
+	      ModelAndView mav = new ModelAndView();
+	      List<AccommodationDTO> accommodationList = service.accList();
+	       for (AccommodationDTO acc : accommodationList) {
+	              Double avgRating = rService.getAverageRatingByAccommodationId(acc.getAccommodation_id());
+	              if (avgRating == null) {
+	                  avgRating = 0.0;
+	              }
+	              acc.setAverageRating(avgRating);
+	              
+	            String latestReview = rService.getLatestReview(acc.getAccommodation_id()); // 최신 리뷰 한 개
+	            System.out.println(latestReview);
+	            acc.setLatestReview(latestReview);
+	            
+	          }
+	      
+	      mav.addObject("accommodationList", accommodationList);
+	      mav.setViewName("urbanMain");
+	      return mav;
+	   }
 
 	
 

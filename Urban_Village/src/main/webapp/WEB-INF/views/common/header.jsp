@@ -219,6 +219,7 @@
                         <a href="${contextPath }/wishList/wishList.do?memberId=${loginId}">위시리스트</a>
                         <hr>
                          <a href="${contextPath }/member/myInfo.do?id=${loginId}">내정보확인</a>
+                         <a href="${contextPath }/member/myCoupon.do?id=${loginId}">내쿠폰함</a>
                          <a href="${contextPath }/cleaner/cleanerForm.do">구직지원</a>
                         <hr>
                         <a href="${contextPath }/admin/helpCenter.do">도움말 센터</a>

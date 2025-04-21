@@ -20,9 +20,18 @@ public class AccommodationDTO {
     private String accommodation_address;
     private double averageRating;
     private boolean liked;
+    private String latestReview;
 
     
-    public String getAccommodation_address() {
+    public String getLatestReview() {
+		return latestReview;
+	}
+
+	public void setLatestReview(String latestReview) {
+		this.latestReview = latestReview;
+	}
+
+	public String getAccommodation_address() {
 		return accommodation_address;
 	}
 

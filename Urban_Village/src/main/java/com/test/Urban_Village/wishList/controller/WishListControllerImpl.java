@@ -1,5 +1,6 @@
 package com.test.Urban_Village.wishList.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.test.Urban_Village.accommodation.dto.AccommodationDTO;
+import com.test.Urban_Village.accommodation.service.AccommodationService;
 import com.test.Urban_Village.wishList.dto.WishListDTO;
 import com.test.Urban_Village.wishList.service.WishListService;
 
@@ -24,9 +27,11 @@ public class WishListControllerImpl implements WishListController {
     @Autowired
     private WishListService WService;
 
-    @Override
-    @RequestMapping(value = "/add.do", method = RequestMethod.POST)
+    @Autowired
+    AccommodationService accService;
     
+    @Override
+    @RequestMapping(value = "/add.do", method = RequestMethod.POST)    
     @ResponseBody
     public String addWishlist(@RequestParam("memberId") String memberId,
                               @RequestParam("accommodationId") String accommodationId,
@@ -63,6 +68,24 @@ public class WishListControllerImpl implements WishListController {
         mav.addObject("wishlist", wishlist);
         return mav;
     }
+    
+    @RequestMapping("/view.do")
+    public ModelAndView viewWishlist(@RequestParam("memberId") String memberId) {
+        List<WishListDTO> wishlist = WService.getWishlistByMemberId(memberId);
+
+        List<AccommodationDTO> accList = new ArrayList<>();
+        for (WishListDTO item : wishlist) {
+            AccommodationDTO acc = accService.findAccommodationId(item.getAccommodationId());
+            accList.add(acc);
+        }
+
+        ModelAndView mav = new ModelAndView("/wishList/wishListadd");
+        mav.addObject("wishlist", wishlist);
+        mav.addObject("accommodation", accList);
+
+        return mav;
+    }
+
     
     
     @Override

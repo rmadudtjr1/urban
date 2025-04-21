@@ -23,5 +23,11 @@ public interface MemberService {
 	public String findEmailById(String member_id);
 	public int modPwdMember(MemberDTO member);
 	public MemberDTO selectByEmail(String email);
-	public void insertGoogleUser(MemberDTO member); 
+	public void insertGoogleUser(MemberDTO member);
+	public int addCoupon(MemberDTO member);
+	List<MemberDTO> getCouponsByMemberId(String loginId);
+	void updateCouponStatus(String coupon_id);
+	int modCoupon(String coupon_id);
+	List<MemberDTO> getCouponsByMemberId1(String loginId);
+	List<MemberDTO> getMyCoupon(String loginId); 
 }
