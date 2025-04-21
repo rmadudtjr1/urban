@@ -206,7 +206,8 @@
     <h1>나의 가고 싶은 곳</h1>
     <div class="hanok-decoration"></div>
     <div class="wishlist-container">
-        <c:choose>
+    
+        <%-- <c:choose>
             <c:when test="${not empty wishlist}">
                 <c:forEach var="wishlistItem" items="${wishlist}">
                     <c:forEach var="acc" items="${accommodation}">
@@ -232,7 +233,7 @@
                     </c:forEach>
                 </c:forEach>
             </c:when>
-            <c:otherwise>
+            <c:otherwise> --%>
                 <div class="empty-wishlist">
                     <i class="far fa-heart"></i>
                     <p>아직 위시리스트에 저장된 숙소가 없습니다.</p>
