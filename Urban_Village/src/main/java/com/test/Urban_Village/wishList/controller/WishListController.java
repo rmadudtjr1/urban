@@ -16,11 +16,11 @@ public interface WishListController {
                           @RequestParam("accommodationId") String accommodationId,
                           HttpServletRequest request, HttpServletResponse response);
 
-    ModelAndView getWishlist(@RequestParam("memberId") String memberId,
-                             HttpServletRequest request, HttpServletResponse response);
 
     String checkWishlist(@RequestParam("memberId") String memberId,
                          @RequestParam("accommodationId") String accommodationId,
                          HttpServletRequest request, HttpServletResponse response);
+
+	ModelAndView getWishlist(String memberId, HttpServletRequest request, HttpServletResponse response);
 
 }

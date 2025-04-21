@@ -14,8 +14,63 @@ public class MemberDTO {
     private Date regdate;             // 등록일
     private Date moddate;            // 수정일
     private String join_type;        //구글로 로그인 했을 때 회원가입 처리
+    private String coupon_id;      //쿠폰아이디
+    private int discount;         //할인율
+    private String coupon_name;     //쿠폰이름
+    private Date expiration_date;   //유효기간
+    private String is_used;         //사용가능여부
+    private Date used_date;
     
-    public String getJoin_type() {
+    
+    public String getCoupon_id() {
+		return coupon_id;
+	}
+
+	public void setCoupon_id(String coupon_id) {
+		this.coupon_id = coupon_id;
+	}
+
+	public int getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+
+	public String getCoupon_name() {
+		return coupon_name;
+	}
+
+	public void setCoupon_name(String coupon_name) {
+		this.coupon_name = coupon_name;
+	}
+
+	public Date getExpiration_date() {
+		return expiration_date;
+	}
+
+	public void setExpiration_date(Date expiration_date) {
+		this.expiration_date = expiration_date;
+	}
+
+	public String getIs_used() {
+		return is_used;
+	}
+
+	public void setIs_used(String is_used) {
+		this.is_used = is_used;
+	}
+
+	public Date getUsed_date() {
+		return used_date;
+	}
+
+	public void setUsed_date(Date used_date) {
+		this.used_date = used_date;
+	}
+
+	public String getJoin_type() {
 		return join_type;
 	}
 

@@ -18,11 +18,11 @@ public interface ReservationController {
 
 	ModelAndView reservationForm(HttpServletRequest request, HttpServletResponse response);
 
-	ModelAndView reservation(com.test.Urban_Village.reservation.dto.PayDTO payDTO, HttpServletRequest request,
-			HttpServletResponse response);
-
-	ModelAndView reservationHistory(HttpServletRequest request, HttpServletResponse response);
-
 	ModelAndView payList(HttpServletRequest request, HttpServletResponse response);
+
+	ModelAndView reservationHistory(PayDTO payDTO, HttpServletRequest request, HttpServletResponse response);
+
+	ModelAndView reservation(PayDTO payDTO, MemberDTO memberDTO, HttpServletRequest request,
+			HttpServletResponse response);
 	
 }

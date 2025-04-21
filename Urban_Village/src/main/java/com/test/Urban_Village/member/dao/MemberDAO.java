@@ -23,4 +23,10 @@ public interface MemberDAO {
 	public int modPwdMember(MemberDTO member);
 	public MemberDTO selectByEmail(String email);
 	public void insertGoogleUser(MemberDTO member);
+	public int addCoupon(MemberDTO member);
+	public List<MemberDTO> getCouponsByMemberId(String loginId);
+	public void updateCouponStatus(String coupon_id);
+	public int modCoupon(String coupon_id);
+	public List<MemberDTO> getCouponsByMemberId1(String loginId);
+	public List<MemberDTO> getMyCoupon(String loginId);
 }

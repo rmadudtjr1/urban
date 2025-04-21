@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>클리너 등록</title>
 <style>
-.container {
+.Ccontainer {
 		width: 70%;
 		margin: 50px auto; /* 가운데 정렬 + 상하 여백 */
 	}
@@ -18,7 +18,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body class="p-5">
-	<div class="container">
+	<div class="Ccontainer">
 		<h2>지역 연계 일자리 지원 양식</h2>
 		<form action="${contextPath}/cleaner/joinCleaner.do" method="post"
 			enctype="multipart/form-data">

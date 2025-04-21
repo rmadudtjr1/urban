@@ -433,8 +433,7 @@ $(document).ready(function() {
                     ㆍ 울진 ㆍ 영덕 ㆍ 청송</a> <a
                     href="${contextPath}/accommodation/searchAddress?keyword=포항ㆍ영천ㆍ경주ㆍ경산">포항
                     ㆍ 영천 ㆍ 경주 ㆍ 경산</a> <a
-                    href="${contextPath}/accommodation/searchAddress?keyword=한옥ㆍ울릉ㆍ청도ㆍ독도">한옥
-                    ㆍ 울릉 ㆍ 청도 ㆍ 독도</a>
+                    href="${contextPath}/accommodation/searchAddress?keyword=한옥ㆍ울릉ㆍ청도ㆍ독도">울릉 ㆍ 청도 ㆍ 독도</a>
             </div>
         </div>
         <div class="accommodations">
@@ -452,9 +451,12 @@ $(document).ready(function() {
                                     <p class="blink-text">★ 호스트 추천 숙소 ★</p>
                                 </c:if>
                             </c:forEach>
-                        </div> <c:set var="imageStr"
-                            value="${accommodation.accommodation_photo}" /> <c:set
-                            var="images" value="${fn:split(imageStr, ',')}" /> <img
+                        </div> 
+                        <c:set var="imageStr"
+                            value="${accommodation.accommodation_photo}" /> 
+                            <c:set
+                            var="images" value="${fn:split(imageStr, ',')}" /> 
+                            <img
                         src="${contextPath}/download.do?imageFileName=${images[0]}&accommodation_id=${accommodation.accommodation_id}&timestamp=<%= System.currentTimeMillis() %>"
                         alt="${accommodation.accommodation_name}">
                         <div class="details">
@@ -465,7 +467,12 @@ $(document).ready(function() {
                                 ${addrParts[1]}</p>
                             <p>수용인원 : ${accommodation.capacity}명</p>
                             <p>₩ ${accommodation.price} / 박</p>
-                            <p>게스트 한마디: 정말 예쁘고 깔끔한 곳....</p>
+                            <c:if test="${not empty accommodation.latestReview}">
+                         <p>게스트 한마디: ${accommodation.latestReview}</p>
+                     </c:if>
+                     <c:if test="${empty accommodation.latestReview}">
+                         <p>아직 리뷰가 없습니다.</p>
+                     </c:if>
                         </div>
                     </a>
                 </div>

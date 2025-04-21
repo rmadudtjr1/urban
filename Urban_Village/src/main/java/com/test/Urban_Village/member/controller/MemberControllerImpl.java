@@ -166,27 +166,29 @@ public class MemberControllerImpl implements MemberController {
 
 	// 회원 가입 처리
 	@RequestMapping(value = "/addMember.do", method = RequestMethod.POST)
-	public ModelAndView addMember(@ModelAttribute MemberDTO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int result = service.addMember(member);
-		System.out.println("Insert Result: " + result);
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
+	   public ModelAndView addMember(@ModelAttribute MemberDTO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	      int result = service.addMember(member);
+	      int result1 = service.addCoupon(member);
+	      System.out.println("Insert Result: " + result);
+	      response.setContentType("text/html;charset=utf-8");
+	      PrintWriter out = response.getWriter();
 
-		if (result == 1) {
-			// 성공 시 알림 후 로그인 페이지로 이동
-			out.write("<script>");
-			out.write("alert('회원 가입에 성공했습니다!');");
-			out.write("location.href='/Urban_Village/member/loginForm.do';");
-			out.write("</script>");
-		} else {
-			// 실패 시 알림 후 다시 회원가입 폼으로
-			out.write("<script>");
-			out.write("alert('회원 가입에 실패했습니다. 다시 시도해주세요.');");
-			out.write("location.href='/Urban_Village/member/joinMember.do';");
-			out.write("</script>");
-		}
-		return null;
-	}
+	      if (result == 1 && result1 == 1) {
+	         int discount = member.getDiscount();
+	         // 성공 시 알림 후 로그인 페이지로 이동
+	         out.write("<script>");
+	         out.write("alert('가입을 축하힙니다." + discount + "% 할인 쿠폰이 지급되었습니다!');");
+	         out.write("location.href='/Urban_Village/member/loginForm.do';");
+	         out.write("</script>");
+	      } else {
+	         // 실패 시 알림 후 다시 회원가입 폼으로
+	         out.write("<script>");
+	         out.write("alert('회원 가입에 실패했습니다. 다시 시도해주세요.');");
+	         out.write("location.href='/Urban_Village/member/joinMember.do';");
+	         out.write("</script>");
+	      }
+	      return null;
+	   }
 	@Override
 	@RequestMapping("/myInfo.do")
 	public ModelAndView myInfo(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -425,6 +427,17 @@ public class MemberControllerImpl implements MemberController {
 
 		return null;
 	}
-    
+	@Override
+	   @RequestMapping("/myCoupon.do")
+	   public ModelAndView myCoupon(HttpServletRequest request, HttpServletResponse response) {
+	      ModelAndView mav = new ModelAndView();
+	      String loginId = (String) session.getAttribute("loginId");
+	      List<MemberDTO> couponList = service.getCouponsByMemberId(loginId);
+	      List<MemberDTO> coupon = service.getMyCoupon(loginId);
+	      mav.addObject("couponList", couponList); //사용가능한쿠폰
+	      mav.addObject("coupon", coupon);      //사용한 쿠폰
+	      mav.setViewName("/member/couponList");
+	      return mav;
+	   }
     
 }

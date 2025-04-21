@@ -25,7 +25,6 @@ public interface AccommodationController {
 			throws Exception;
 
 
-	ModelAndView main(HttpServletResponse response, HttpServletRequest request);
 
 
 	ModelAndView delAccommodation(String accommodation_id, HttpServletResponse response, HttpServletRequest request)throws IOException;
@@ -37,6 +36,10 @@ public interface AccommodationController {
 
 
 	ModelAndView modAccommodationList(HttpServletResponse response, HttpServletRequest request);
+
+
+
+	ModelAndView main1(HttpServletResponse response, HttpServletRequest request);
 
 
 

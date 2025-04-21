@@ -14,6 +14,8 @@ public interface ReviewService {
 
 	Double getAverageRatingByAccommodationId(String accommodationId);
 
+	String getLatestReview(String accommodation_id);
+
 	
 
 
